@@ -1,22 +1,34 @@
 DATA_DIR = /media/xtrem/data/datasets/radio_data
 BUILD_DIR = /media/xtrem/data/experiments/nicolingua-0001-language-id
 
+.PHONY: samples features-c features-z clean-samples clean-features-c clean-features-z count-files
 
-phony samples: $(BUILD_DIR)/audio_samples
+samples: $(BUILD_DIR)/audio_samples
 
-phony clean-samples:
+features-c: ${BUILD_DIR}/wav2vec_features-c
+
+features-z: ${BUILD_DIR}/wav2vec_features-z
+
+clean-samples:
 	rm -rf $(BUILD_DIR)/audio_samples
 
-phony features-c: ${BUILD_DIR}/wav2vec_features-c
+clean-features-c: 
+	rm -rf ${BUILD_DIR}/wav2vec_features-c
 
-phony features-z: ${BUILD_DIR}/wav2vec_features-z
+clean-features-z: 
+	rm -rf ${BUILD_DIR}/wav2vec_features-z
+
+count-files:
+	echo "samples: `ls $(BUILD_DIR)/audio_samples/ | wc -l`"
+	echo "features-z `ls ${BUILD_DIR}/wav2vec_features-z/ | wc -l`"
+	echo "features-c `ls ${BUILD_DIR}/wav2vec_features-c/ | wc -l`"
 
 $(BUILD_DIR)/audio_samples:
 	python scripts/sample_audio_segments.py $(DATA_DIR) $(BUILD_DIR)/audio_samples --worker-count 32
 
 ${BUILD_DIR}/wav2vec_features-c:
 	python ../fairseq/examples/wav2vec/wav2vec_featurize.py \
-		--input /media/xtrem/data/datasets/radio_data-samples/ \
+		--input $(BUILD_DIR)/audio_samples \
 		--output ${BUILD_DIR}/wav2vec_features-c \
 		--model /media/xtrem/code/lib/models/acoustic_models/wav2vec/wav2vec_large.pt \
 		--gpu 0 \
@@ -24,7 +36,7 @@ ${BUILD_DIR}/wav2vec_features-c:
 
 ${BUILD_DIR}/wav2vec_features-z:
 	python ../fairseq/examples/wav2vec/wav2vec_featurize.py \
-		--input /media/xtrem/data/datasets/radio_data-samples/ \
+		--input $(BUILD_DIR)/audio_samples \
 		--output ${BUILD_DIR}/wav2vec_features-z \
 		--model /media/xtrem/code/lib/models/acoustic_models/wav2vec/wav2vec_large.pt \
 		--gpu 1 \
