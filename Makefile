@@ -102,4 +102,11 @@ train-01-train-wav2vec:
 		--skip-invalid-size-inputs-valid-test 
 
 # NOTE: your device does NOT support faster training with --fp16,please switch to FP32 which is likely to be faster
-# --restore-file /media/xtrem/code/lib/models/acoustic_models/wav2vec/wav2vec_large.pt \
+# --restore-file /media/xtrem/code/lib/models/acoustic_models/wav2vec/wav2vec_large.pt 
+
+
+
+# Tag editor tool
+
+start-tag-editor:
+	cd html && python3.6 -m http.server
