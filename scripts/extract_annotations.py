@@ -1,19 +1,44 @@
 import pydub
 from pprint import PrettyPrinter
 pprint = PrettyPrinter().pprint
-import soundfile as sf
-import audio_metadata
+import os
+from pathlib import Path
+import mutagen
+import csv
+from argparse import ArgumentParser
 
-file_path = "/media/xtrem/data/experiments/nicolingua-0001-language-id/audio_samples/00034b34-b671-4e38-bc7a-6d6b0acdbda5.wav"
-file_path = "/media/xtrem/data/experiments/nicolingua-0001-language-id/audio_samples/0006fefa-feba-45df-ad2e-f5369ed2da7c.wav"
 
 
-#pprint(pydub.utils.mediainfo(file_path))
+def main(args):
+    with open(args.output_file, 'w') as f:
+        csv_writer = csv.writer(f)
+        csv_writer.writerow(["file", "tags"])
+        for root, dirs, files in os.walk(args.input_dir):
+            counter = 0
+            for f in files:
+                file_path = Path(root) / Path(f)
+                metadata = mutagen.File(file_path)
+                
+                if metadata:
+                    try:
+                        #print(file_path)
+                        tags = metadata['COMM::eng']
+                        counter+=1
+                        fn = os.path.basename(file_path)
+                        csv_writer.writerow([fn, tags])
+                    except KeyError:
+                        print("Problematic metadata record: {}".format(file_path))
+            print(counter)
 
-#data, samplerate = sf.read(file_path)
 
-#pprint(sf.info(file_path))
+def parse_command_line_args():
+    parser = ArgumentParser()
+    parser.add_argument("input_dir")
+    parser.add_argument("output_file")
 
-tags = audio_metadata.load(file_path)['tags']['comment'][0]['text']
-print(tags)
+    return parser.parse_args()
+
+if __name__ == "__main__":
+    args = parse_command_line_args()
+    main(args)
 

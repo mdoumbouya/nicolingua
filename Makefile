@@ -110,3 +110,12 @@ train-01-train-wav2vec:
 
 start-tag-editor:
 	cd html && python3.6 -m http.server
+
+
+extract-id3v2-metadata:
+	python scripts/extract_annotations.py \
+		/Users/moussadoumbouya/git/datasets/language-id-annotation/audio_samples/ \
+		/Users/moussadoumbouya/git/datasets/language-id-annotation/metadata.csv
+
+	cat /Users/moussadoumbouya/git/datasets/language-id-annotation/metadata.csv
+		
