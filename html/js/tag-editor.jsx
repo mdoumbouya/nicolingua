@@ -18,8 +18,10 @@ class TagEditor extends React.Component {
       {category:"language", tag:"lng-kono", description:"kono"},
       {category:"language", tag:"lng-mano", description:"mano"},
       {category:"language", tag:"lng-french", description:"french"},
+      {category:"language", tag:"lng-unknown", description:"unkown"},
 
       {category:"utterance", tag:"utt-multi-lingual", description:"multilingual"},
+      {category:"utterance", tag:"utt-multi-lingual-named-endity", description:"multilingual named entity"},
       {category:"utterance", tag:"utt-verbal-nod", description:"verbal nod"},
 
       {category:"speaker", tag:"spkr-single", description:"single"},
@@ -28,6 +30,7 @@ class TagEditor extends React.Component {
       {category:"speaker", tag:"spkr-female", description:"female"},
 
       {category:"sound", tag:"ct-speech", description:"speech"},
+      {category:"sound", tag:"ct-laughter", description:"laughter"},
       {category:"sound", tag:"ct-song", description:"song"},
       {category:"sound", tag:"ct-telephone", description:"telephone call"},
       {category:"sound", tag:"ct-bg-music", description:"background music"},
