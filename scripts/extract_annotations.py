@@ -1,6 +1,3 @@
-import pydub
-from pprint import PrettyPrinter
-pprint = PrettyPrinter().pprint
 import os
 from pathlib import Path
 import mutagen
@@ -27,7 +24,7 @@ def main(args):
                         fn = os.path.basename(file_path)
                         csv_writer.writerow([fn, tags])
                     except KeyError:
-                        print("Problematic metadata record: {}".format(file_path))
+                        print("Problematic metadata record. \n\tfile: {}\n\tmetadata: {}".format(file_path, metadata))
             print(counter)
 
 

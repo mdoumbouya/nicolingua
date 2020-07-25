@@ -118,4 +118,48 @@ extract-id3v2-metadata:
 		/Users/moussadoumbouya/git/datasets/language-id-annotation/metadata.csv
 
 	cat /Users/moussadoumbouya/git/datasets/language-id-annotation/metadata.csv
-		
+
+	cat /Users/moussadoumbouya/git/datasets/language-id-annotation/metadata.csv | wc -l
+
+copy-unknown-lg:
+	python scripts/copy_files_by_annotation.py \
+		/Users/moussadoumbouya/git/datasets/language-id-annotation/audio_samples/ \
+		/Users/moussadoumbouya/git/datasets/language-id-annotation/audio_samples_unknown_lg \
+		--tag lng-unknown
+
+clean-unknown-lg:
+	rm -rf /Users/moussadoumbouya/git/datasets/language-id-annotation/audio_samples_unknown_lg
+
+
+tag-frequencies:
+	python scripts/compute_tag_frequencies.py\
+		/Users/moussadoumbouya/git/datasets/language-id-annotation/audio_samples/ \
+		/Users/moussadoumbouya/git/datasets/language-id-annotation/tag_frequencies.csv
+
+
+
+# other notes
+# 0a505ae8-b3b1-4b47-a84c-75298caf6f39.wav (multilingual utterance telephone)
+# 0a978fe1-7bad-4ea7-be32-f88f40de085a.wav (dialog)
+# mispelled tag multilingual-named-endity
+# 0b4df82d-a7db-4dd8-9960-de97d68406ab.wav arabic utterances
+# 0d46c65b-b573-4b58-b46e-4688f6946c27.wav health education
+# 0dc8839b-2a8e-468b-b5c8-f483fb5d80a3.wav background islamic reading
+# 
+# 0c73a83d-c0fc-4ac4-994c-a2b14ede31cb.wav background koran reading
+# 0c69ed59-27b9-4af9-97c3-2087f882917b.wav background islamic singing
+# 0e3f5243-69d5-42e0-ae79-dacda5f79d3a.wav background islaming reading
+# 000ec3a1-f7da-4eb8-b0a9-df7b81d9e6b3.wav (la daba)
+# 0f4c3c2e-5e44-4c7a-a2b7-95799919ee07.wav background islamic reading
+# 0f28ee0c-b462-4ffa-9faf-f6f343466d9f.wav background islamic reading
+# Notes:
+# 
+# 
+# Assertions:
+# Assert that multilinqual-* tagged clips contain more than 1 language
+# non speech and non forground music
+# non speech and non song
+
+
+
+# 0facc456-9ccd-4643-a19d-fc4cab4b9273.wav (CENI education election)

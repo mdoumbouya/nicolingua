@@ -13,11 +13,14 @@ class TagEditor extends React.Component {
       {category:"language", tag:"lng-pular", description:"pular"},
       {category:"language", tag:"lng-koniaka", description:"koniaka"},
       {category:"language", tag:"lng-kisi", description:"kisi"},
-      {category:"language", tag:"lng-kpele", description:"kpele"},
+      {category:"language", tag:"lng-guerze", description:"guerze"},
       {category:"language", tag:"lng-toma", description:"toma"},
       {category:"language", tag:"lng-kono", description:"kono"},
       {category:"language", tag:"lng-mano", description:"mano"},
       {category:"language", tag:"lng-french", description:"french"},
+      {category:"language", tag:"lng-english", description:"english"},
+      {category:"language", tag:"lng-arabic", description:"arabic"},
+      {category:"language", tag:"lng-spanish", description:"spanish"},
       {category:"language", tag:"lng-unknown", description:"unkown"},
 
       {category:"utterance", tag:"utt-multi-lingual", description:"multilingual"},
@@ -35,6 +38,7 @@ class TagEditor extends React.Component {
       {category:"sound", tag:"ct-telephone", description:"telephone call"},
       {category:"sound", tag:"ct-bg-music", description:"background music"},
       {category:"sound", tag:"ct-fg-music", description:"foreground music"},
+      {category:"sound", tag:"ct-tr-music", description:"transition music"},
       {category:"sound", tag:"ct-noise", description:"noise"},
 
       {category:"topic", tag:"ct-edu-covid", description:"Covid-19 education"},
