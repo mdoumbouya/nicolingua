@@ -1,5 +1,6 @@
 DATA_DIR = /media/xtrem/data/datasets/radio_data
 BUILD_DIR = /media/xtrem/data/experiments/nicolingua-0001-language-id
+
 export CUDA_VISIBLE_DEVICES=0,1
 
 .PHONY: samples features-c features-z clean-samples clean-features-c clean-features-z count-files
@@ -9,8 +10,10 @@ samples: $(BUILD_DIR)/audio_samples
 samples-annotation-space: $(BUILD_DIR)/audio_samples_annotation_space
 
 features-c: ${BUILD_DIR}/wav2vec_features-c
+retrained-features-c: ${BUILD_DIR}/retrained-wav2vec_features-c
 
 features-z: ${BUILD_DIR}/wav2vec_features-z
+retrained-features-z: ${BUILD_DIR}/retrained-wav2vec_features-z
 
 clean-samples:
 	rm -rf $(BUILD_DIR)/audio_samples
@@ -20,6 +23,13 @@ clean-features-c:
 
 clean-features-z: 
 	rm -rf ${BUILD_DIR}/wav2vec_features-z
+
+clean-retrained-features-c: 
+	rm -rf ${BUILD_DIR}/retrained-wav2vec_features-c
+
+
+clean-retrained-features-z: 
+	rm -rf ${BUILD_DIR}/retrained-wav2vec_features-z
 
 count-files:
 	echo "samples: `ls $(BUILD_DIR)/audio_samples/ | wc -l`"
@@ -33,7 +43,7 @@ $(BUILD_DIR)/audio_samples:
 $(BUILD_DIR)/audio_samples_annotation_space:
 	# split files into mostly music and mostly speech
 
-
+# original features
 ${BUILD_DIR}/wav2vec_features-c:
 	python ../fairseq/examples/wav2vec/wav2vec_featurize.py \
 		--input $(BUILD_DIR)/audio_samples \
@@ -51,6 +61,23 @@ ${BUILD_DIR}/wav2vec_features-z:
 		--split "" \
 		--use-feat
 
+# retrained features
+${BUILD_DIR}/retrained-wav2vec_features-c:
+	python ../fairseq/examples/wav2vec/wav2vec_featurize.py \
+		--input $(BUILD_DIR)/audio_samples \
+		--output ${BUILD_DIR}/retrained-wav2vec_features-c \
+		--model $(BUILD_DIR)/wav2vec-training-exp-01/checkpoints/checkpoint_best.pt \
+		--gpu 0 \
+		--split ""
+
+${BUILD_DIR}/retrained-wav2vec_features-z:
+	python ../fairseq/examples/wav2vec/wav2vec_featurize.py \
+		--input $(BUILD_DIR)/audio_samples \
+		--output ${BUILD_DIR}/retrained-wav2vec_features-z \
+		--model $(BUILD_DIR)/wav2vec-training-exp-01/checkpoints/checkpoint_best.pt \
+		--gpu 1 \
+		--split "" \
+		--use-feat
 
 
 
@@ -102,6 +129,7 @@ train-01-train-wav2vec:
 		--skip-invalid-size-inputs-valid-test 
 
 # NOTE: your device does NOT support faster training with --fp16,please switch to FP32 which is likely to be faster
+
 # --restore-file /media/xtrem/code/lib/models/acoustic_models/wav2vec/wav2vec_large.pt 
 
 
@@ -163,3 +191,16 @@ tag-frequencies:
 
 
 # 0facc456-9ccd-4643-a19d-fc4cab4b9273.wav (CENI education election)
+
+# --restore-file /media/xtrem/code/lib/models/acoustic_models/wav2vec/wav2vec_large.pt \
+
+
+######
+### Clustering
+######
+
+cluster-with-original-wav2vec:
+	python scripts/cluster_audio_features.py
+
+cluster-with-retrained-wav2vec:
+

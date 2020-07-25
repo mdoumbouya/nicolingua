@@ -11,6 +11,7 @@ import shutil
 
 
 def pool_feature_last_seq(raw_features):
+    print('before pooling: {}'.format(raw_features.shape))
     return raw_features[-1]
 
 def load_features(args):
@@ -64,6 +65,11 @@ def output_t_sne_projection(features, labels, args):
 
 def main(args):
     ids, features = load_features(args)
+
+    print(len(ids))
+    print(features.shape)
+    
+    return
     
     labels = perform_clustering(features, args)
     output_t_sne_projection(features, labels, args)
