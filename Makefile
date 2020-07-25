@@ -161,8 +161,8 @@ clean-unknown-lg:
 
 tag-frequencies:
 	python scripts/compute_tag_frequencies.py\
-		/Users/moussadoumbouya/git/datasets/language-id-annotation/audio_samples/ \
-		/Users/moussadoumbouya/git/datasets/language-id-annotation/tag_frequencies.csv
+		$(BUILD_DIR)/language-id-annotations/audio_samples/ #\
+		#--output-file $(BUILD_DIR)/language-id-annotations/tag_frequencies.csv
 
 
 
