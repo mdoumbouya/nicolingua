@@ -128,8 +128,8 @@ train-01-train-wav2vec:
 		--max-tokens 1500000 \
 		--skip-invalid-size-inputs-valid-test 
 
-train-01-train-vq-wav2vec-TODO:
-	python train.py \
+train-01-train-vq-wav2vec:
+	python ../fairseq/train.py \
 		$(BUILD_DIR)/wav2vec-training-exp-01/manifest/ \
 		--save-dir $(BUILD_DIR)/wav2vec-training-exp-01/checkpoints-vq/ \
 		--tensorboard-logdir $(BUILD_DIR)/wav2vec-training-exp-01/logs-vq/ \
@@ -157,7 +157,7 @@ train-01-train-vq-wav2vec-TODO:
 		--vq-depth 2 \
 		--combine-groups \
 		--vq-vars 320 \
-		--vq-temp (2,0.5,0.999995) \
+		--vq-temp "(2,0.5,0.999995)" \
 		--prediction-steps 12 \
 		--warmup-updates 1000 \
 		--warmup-init-lr 1e-07 \
