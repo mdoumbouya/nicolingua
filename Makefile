@@ -9,11 +9,16 @@ samples: $(BUILD_DIR)/audio_samples
 
 samples-annotation-space: $(BUILD_DIR)/audio_samples_annotation_space
 
+features-z: ${BUILD_DIR}/wav2vec_features-z
+retrained-features-z: ${BUILD_DIR}/retrained-wav2vec_features-z
+
 features-c: ${BUILD_DIR}/wav2vec_features-c
 retrained-features-c: ${BUILD_DIR}/retrained-wav2vec_features-c
 
-features-z: ${BUILD_DIR}/wav2vec_features-z
-retrained-features-z: ${BUILD_DIR}/retrained-wav2vec_features-z
+
+features-vq: ${BUILD_DIR}/wav2vec-vq_features
+retrained-features-vq: ${BUILD_DIR}/retrained-wav2vec-vq_features
+
 
 clean-samples:
 	rm -rf $(BUILD_DIR)/audio_samples
@@ -43,7 +48,7 @@ $(BUILD_DIR)/audio_samples:
 $(BUILD_DIR)/audio_samples_annotation_space:
 	# split files into mostly music and mostly speech
 
-# original features
+# original features - wav2vec
 ${BUILD_DIR}/wav2vec_features-c:
 	python ../fairseq/examples/wav2vec/wav2vec_featurize.py \
 		--input $(BUILD_DIR)/audio_samples \
@@ -61,7 +66,19 @@ ${BUILD_DIR}/wav2vec_features-z:
 		--split "" \
 		--use-feat
 
-# retrained features
+# original features - wav2vec vq
+${BUILD_DIR}/wav2vec-vq_features:
+	python ../fairseq/examples/wav2vec/vq-wav2vec_featurize.py \
+		--data-dir $(BUILD_DIR)/audio_samples \
+		--output-dir ${BUILD_DIR}/wav2vec-vq_features \
+		--checkpoint /media/xtrem/code/lib/models/acoustic_models/wav2vec/vq-wav2vec.pt \
+		--split "" \
+		--extension wav
+
+
+
+
+# retrained features wav2vec
 ${BUILD_DIR}/retrained-wav2vec_features-c:
 	python ../fairseq/examples/wav2vec/wav2vec_featurize.py \
 		--input $(BUILD_DIR)/audio_samples \
@@ -80,6 +97,14 @@ ${BUILD_DIR}/retrained-wav2vec_features-z:
 		--use-feat
 
 
+# retrained features - wav2vec vq
+${BUILD_DIR}/retrained-wav2vec-vq_features:
+	python ../fairseq/examples/wav2vec/vq-wav2vec_featurize.py \
+		--data-dir $(BUILD_DIR)/audio_samples \
+		--output-dir ${BUILD_DIR}/retrained-wav2vec-vq_features \
+		--checkpoint $(BUILD_DIR)/wav2vec-training-exp-01/checkpoints-vq/checkpoint_best.pt \
+		--split "" \
+		--extension wav
 
 # Keywords associated with mostly musical content: "MUSIQUE" "FOLKLORES" "RETRO" "PRETETE"
 # cat /media/xtrem/data/tmp-waves/samples.csv |grep -v -e "MUSIQUE" -e "FOLKLORES" -e "RETRO" -e "PRETETE" | shuf | head | awk  '{FS=","; print $2}'
@@ -135,7 +160,7 @@ train-01-train-vq-wav2vec:
 		--tensorboard-logdir $(BUILD_DIR)/wav2vec-training-exp-01/logs-vq/ \
 		--num-workers 6 \
 		--fp16 \
-		--max-update 400000 \
+		--max-update 1000000 \
 		--save-interval 1 \
 		--no-epoch-checkpoints \
 		--arch wav2vec \
@@ -151,7 +176,6 @@ train-01-train-vq-wav2vec:
 		--offset auto \
 		--skip-connections-agg \
 		--residual-scale 0.5 \
-		--log-keys ["prob_perplexity","code_perplexity","temp"] \
 		--vq-type gumbel \
 		--vq-groups 2 \
 		--vq-depth 2 \
@@ -169,6 +193,8 @@ train-01-train-vq-wav2vec:
 		--update-freq 1 \
 		--seed 2 \
 		--skip-invalid-size-inputs-valid-test
+
+# VQ --log-keys ["prob_perplexity","code_perplexity","temp"] \
 # NOTE: your device does NOT support faster training with --fp16,please switch to FP32 which is likely to be faster
 
 # --restore-file /media/xtrem/code/lib/models/acoustic_models/wav2vec/wav2vec_large.pt 
