@@ -153,6 +153,9 @@ train-01-train-wav2vec:
 		--max-tokens 1500000 \
 		--skip-invalid-size-inputs-valid-test 
 
+
+
+
 train-01-train-vq-wav2vec:
 	python ../fairseq/train.py \
 		$(BUILD_DIR)/wav2vec-training-exp-01/manifest/ \
@@ -194,6 +197,37 @@ train-01-train-vq-wav2vec:
 		--seed 2 \
 		--skip-invalid-size-inputs-valid-test
 
+
+train-02-train-wav2vec:
+	mkdir -p $(BUILD_DIR)/wav2vec-training-exp-02-small/checkpoints/
+	mkdir -p $(BUILD_DIR)/wav2vec-training-exp-02-small/logs/
+	python ../fairseq/train.py \
+		$(BUILD_DIR)/wav2vec-training-exp-01/manifest/ \
+		--save-dir $(BUILD_DIR)/wav2vec-training-exp-02-small/checkpoints/ \
+		--tensorboard-logdir $(BUILD_DIR)/wav2vec-training-exp-02-small/logs/ \
+		--num-workers 6 \
+		--max-update 400000 \
+		--save-interval 1 \
+		--no-epoch-checkpoints \
+		--arch wav2vec \
+		--task audio_pretraining \
+		--lr 1e-06 \
+		--min-lr 1e-09 \
+		--optimizer adam \
+		--max-lr 0.005 \
+		--lr-scheduler cosine \
+		--conv-feature-layers "[(512, 10, 5), (512, 8, 4), (512, 4, 2), (512, 4, 2), (512, 4, 2)]" \
+		--conv-aggregator-layers "[(512, 3, 1), (512, 3, 1), (512, 3, 1), (512, 3, 1), (512, 3, 1), (512, 3, 1), (512, 3, 1), (512, 3, 1), (512, 3, 1)]" \
+		--skip-connections-agg \
+		--residual-scale 0.5 \
+		--log-compression \
+		--warmup-updates 500 \
+		--warmup-init-lr 1e-07 \
+		--criterion binary_cross_entropy \
+		--num-negatives 10 \
+		--max-sample-size 150000 \
+		--max-tokens 1500000 \
+		--skip-invalid-size-inputs-valid-test 
 # VQ --log-keys ["prob_perplexity","code_perplexity","temp"] \
 # NOTE: your device does NOT support faster training with --fp16,please switch to FP32 which is likely to be faster
 
