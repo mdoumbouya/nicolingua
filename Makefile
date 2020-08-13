@@ -1,6 +1,8 @@
 DATA_DIR = /media/xtrem/data/datasets/radio_data
 BUILD_DIR = /media/xtrem/data/experiments/nicolingua-0001-language-id
 
+VA_ASR_DIR = /media/xtrem/data/datasets/guinean_virtual_assistant_speech_recognition
+
 export CUDA_VISIBLE_DEVICES=0,1
 
 .PHONY: samples features-c features-z clean-samples clean-features-c clean-features-z count-files
@@ -305,3 +307,8 @@ cluster-with-original-wav2vec:
 
 cluster-with-retrained-wav2vec:
 
+
+va-asr-process-audacity-annotations:
+	python scripts/va_asr/extract_audacity_annotations.py \
+		$(VA_ASR_DIR)/curation/ \
+		$(VA_ASR_DIR)/annotated_segments/
