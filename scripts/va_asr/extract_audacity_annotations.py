@@ -10,7 +10,7 @@ from pydub.effects import normalize
 
 
 SEGMENT_FNAME_REGEX = re.compile("(?P<recording_session_id>r\d+)_(?P<speaker_id>s\d+)_(?P<device_id>d\d+)_(?P<language>\w+)__.*__(?P<label_id>\d+_.*)")
-KNOWN_LANGUAGES = {'maninka', 'susu', 'pular'}
+KNOWN_LANGUAGES = {'maninka', 'susu', 'pular', 'francais', 'english'}
 KNOWN_LABELS = {
     "101_wake_word", 
 
@@ -33,7 +33,7 @@ KNOWN_LABELS = {
     "309_eight", 
     "310_nine",
 
-    "401_mon",
+    "401_mom",
     "402_dad",
 
     "501_fatoumata", 
@@ -71,8 +71,19 @@ def process_audio_file(annotation_fname, audio_fname, metadata_dict_writer, args
         audio_segment = pydub.AudioSegment.from_file(audio_fname)
         reader = csv.DictReader(f, fieldnames = ["start", "end", "label"], delimiter="\t")
         for a in reader:
-            start_ms = float(a["start"]) * 1000 - args.padding_ms
-            end_ms = float(a["end"]) * 1000 - args.padding_ms
+            marker_start_ms = float(a["start"]) * 1000
+            marker_end_ms = float(a["end"]) * 1000
+
+            if(marker_start_ms > len(audio_segment)):
+                logging.error(f"Marker {a['label']} starts after the end of audio segment in {segment_fname.stem}")
+                continue
+            
+            if(marker_end_ms > len(audio_segment)):
+                logging.error(f"Marker {a['label']} ends after the end of audio segment in {segment_fname.stem}")
+                continue
+
+            start_ms = marker_start_ms - args.padding_ms
+            end_ms = marker_end_ms + args.padding_ms
             segment = audio_segment[start_ms:end_ms]
             segment = normalize(segment)
             segment = segment.set_frame_rate(args.frame_rate)
@@ -96,7 +107,7 @@ def process_audio_file(annotation_fname, audio_fname, metadata_dict_writer, args
 
             m_record["file"] = segment_fname.parts[-1]
             logging.debug(f"writing {segment_fname}...")
-            segment.export(segment_fname)
+            segment.export(segment_fname, format="wav")
 
             metadata_dict_writer.writerow(m_record)
 
@@ -117,7 +128,11 @@ def main(args):
                 logging.warn(f"Skipping {annotation_fname}, for which no audio file could be found.")
                 continue
             
-            process_audio_file(annotation_fname, audio_fname, metadata_dict_writer, args)
+            try:
+                process_audio_file(annotation_fname, audio_fname, metadata_dict_writer, args)
+            except:
+                logging.exception(f"Unable to process {annotation_fname}")
+
             
 
 

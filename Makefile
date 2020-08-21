@@ -1,7 +1,8 @@
 DATA_DIR = /media/xtrem/data/datasets/radio_data
 BUILD_DIR = /media/xtrem/data/experiments/nicolingua-0001-language-id
 
-VA_ASR_DIR = /media/xtrem/data/datasets/guinean_virtual_assistant_speech_recognition
+# VA_ASR_DIR = /media/xtrem/data/datasets/guinean_virtual_assistant_speech_recognition
+VA_ASR_DIR = /media/xtrem/data/datasets/taibou_annotations/2020-08-20_01/guinean_virtual_assistant_speech_recognition
 
 export CUDA_VISIBLE_DEVICES=0,1
 
@@ -308,7 +309,70 @@ cluster-with-original-wav2vec:
 cluster-with-retrained-wav2vec:
 
 
-va-asr-process-audacity-annotations:
+va-asr-segments: $(VA_ASR_DIR)/annotated_segments/metadata.csv
+
+va-asr-features-c: ${VA_ASR_DIR}/wav2vec_features-c
+va-asr-retrained-features-c: ${VA_ASR_DIR}/retrained-wav2vec_features-c
+
+va-asr-features-z: ${VA_ASR_DIR}/wav2vec_features-z
+va-asr-retrained-features-z: ${VA_ASR_DIR}/retrained-wav2vec_features-z
+
+
+clean-va-asr-segments: 
+	rm -rf $(VA_ASR_DIR)/annotated_segments/
+
+clean-va-asr-features-z: 
+	rm -rf ${VA_ASR_DIR}/wav2vec_features-z
+
+clean-va-asr-retrained-features-z: 
+	rm -rf ${VA_ASR_DIR}/retrained-wav2vec_features-z
+
+clean-va-asr-features-c: 
+	rm -rf ${VA_ASR_DIR}/wav2vec_features-c
+
+clean-va-asr-retrained-features-c: 
+	rm -rf ${VA_ASR_DIR}/retrained-wav2vec_features-c
+
+
+
+$(VA_ASR_DIR)/annotated_segments/metadata.csv:
 	python scripts/va_asr/extract_audacity_annotations.py \
+		--padding-ms 100 \
 		$(VA_ASR_DIR)/curation/ \
-		$(VA_ASR_DIR)/annotated_segments/
+		$(VA_ASR_DIR)/annotated_segments
+
+# baseline features - wav2vec
+${VA_ASR_DIR}/wav2vec_features-c:
+	python ../fairseq/examples/wav2vec/wav2vec_featurize.py \
+		--input $(VA_ASR_DIR)/annotated_segments \
+		--output ${VA_ASR_DIR}/wav2vec_features-c \
+		--model /media/xtrem/code/lib/models/acoustic_models/wav2vec/wav2vec_large.pt \
+		--gpu 0 \
+		--split ""
+
+${VA_ASR_DIR}/wav2vec_features-z:
+	python ../fairseq/examples/wav2vec/wav2vec_featurize.py \
+		--input $(VA_ASR_DIR)/annotated_segments \
+		--output ${VA_ASR_DIR}/wav2vec_features-z \
+		--model /media/xtrem/code/lib/models/acoustic_models/wav2vec/wav2vec_large.pt \
+		--gpu 1 \
+		--split "" \
+		--use-feat
+
+# retrained features wav2vec
+${VA_ASR_DIR}/retrained-wav2vec_features-c:
+	python ../fairseq/examples/wav2vec/wav2vec_featurize.py \
+		--input $(VA_ASR_DIR)/annotated_segments \
+		--output ${VA_ASR_DIR}/retrained-wav2vec_features-c \
+		--model $(BUILD_DIR)/wav2vec-training-exp-01/checkpoints/checkpoint_best.pt \
+		--gpu 0 \
+		--split ""
+
+${VA_ASR_DIR}/retrained-wav2vec_features-z:
+	python ../fairseq/examples/wav2vec/wav2vec_featurize.py \
+		--input $(VA_ASR_DIR)/annotated_segments \
+		--output ${VA_ASR_DIR}/retrained-wav2vec_features-z \
+		--model $(BUILD_DIR)/wav2vec-training-exp-01/checkpoints/checkpoint_best.pt \
+		--gpu 1 \
+		--split "" \
+		--use-feat
