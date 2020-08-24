@@ -2,7 +2,7 @@ DATA_DIR = /media/xtrem/data/datasets/radio_data
 BUILD_DIR = /media/xtrem/data/experiments/nicolingua-0001-language-id
 
 # VA_ASR_DIR = /media/xtrem/data/datasets/guinean_virtual_assistant_speech_recognition
-VA_ASR_DIR = /media/xtrem/data/datasets/taibou_annotations/2020-08-20_01/guinean_virtual_assistant_speech_recognition
+VA_ASR_DIR = /media/xtrem/data/experiments/nicolingua-0002-va-asr/datasets/gn_va_asr_dataset_2020-08-24_02
 
 export CUDA_VISIBLE_DEVICES=0,1
 
