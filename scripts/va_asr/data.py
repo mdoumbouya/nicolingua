@@ -1,10 +1,12 @@
 import logging
 from pathlib import Path
+import itertools
 import csv
 import numpy as np
 import h5py
 import torch
 from torch.utils.data import TensorDataset, DataLoader
+
 
 def load_metadata(args):
     annotations_path = Path(args.data_dir) / "annotated_segments" / "metadata.csv"
@@ -15,8 +17,69 @@ def load_metadata(args):
                 yield r
 
 
+
+def count_by_attribute(records, attribute_names):
+    attribute_name_instances = {}
+    for attribute_name in attribute_names:
+        attribute_name_instances[attribute_name] = {r[attribute_name] for r in records}
+        
+    l = [attribute_name_instances[attribute_name] for attribute_name in attribute_names]
+    
+    
+    
+    for attribute_values in sorted(itertools.product(*l)):
+        
+        def record_match(r):
+            for i in range(len(attribute_names)):
+                if r[attribute_names[i]] != attribute_values[i]:
+                    return False
+            return True
+            
+        record_instances = [r for r in records if record_match(r)]
+        count = len(record_instances)
+        
+        yield (attribute_values, count)
+
+def log_data_stats(metadata_records):
+    logging.info(
+        "RECORDS BY DEVICE\n" +
+        "\n".join([f"\t{r}" for r in sorted(count_by_attribute(metadata_records, ['device_id']))])
+    )
+
+    logging.info(
+        "RECORDS BY LANGUAGE\n" +
+        "\n".join([f"\t{r}" for r in sorted(count_by_attribute(metadata_records, ['language']))])
+    )
+    
+    logging.info(
+        "RECORDS BY GENDER\n" +
+        "\n".join([f"\t{r}" for r in sorted(count_by_attribute(metadata_records, ['speaker_gender']))])
+    )
+    
+    logging.info(
+        "RECORDS BY AGE\n" +
+        "\n".join([f"\t{r}" for r in sorted(count_by_attribute(metadata_records, ['speaker_age']))])
+    )
+
+    logging.info(
+        "RECORDS BY SPEAKER\n" +
+        "\n".join([f"\t{r}" for r in sorted(count_by_attribute(metadata_records, ['speaker_id']))])
+    )
+    
+    logging.info(
+        "RECORDS BY SPEAKER BY LANGUAGE\n" +
+        "\n".join([f"\t{r}" for r in sorted(count_by_attribute(metadata_records, ['speaker_id', 'language']))])
+    )
+
+    logging.info(
+        "RECORDS BY SPEAKER BY LABEL\n" +
+        "\n".join([f"\t{r}" for r in sorted(count_by_attribute(metadata_records, ['label']))])
+    )
+
+
 def generate_class_dictionaries(args):
     metadata_records = list(load_metadata(args))
+    log_data_stats(metadata_records)
 
     # voice commands
     voice_cmd_class_names = sorted({r['label'] for r in metadata_records})

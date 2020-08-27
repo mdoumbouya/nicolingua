@@ -2,7 +2,7 @@ DATA_DIR = /media/xtrem/data/datasets/radio_data
 BUILD_DIR = /media/xtrem/data/experiments/nicolingua-0001-language-id
 
 # VA_ASR_DIR = /media/xtrem/data/datasets/guinean_virtual_assistant_speech_recognition
-VA_ASR_DIR = /media/xtrem/data/experiments/nicolingua-0002-va-asr/datasets/gn_va_asr_dataset_2020-08-24_02
+VA_ASR_DIR = /media/xtrem/data/experiments/nicolingua-0002-va-asr/datasets/gn_va_asr_dataset_2020-08-26_01
 
 export CUDA_VISIBLE_DEVICES=0,1
 
@@ -376,3 +376,10 @@ ${VA_ASR_DIR}/retrained-wav2vec_features-z:
 		--gpu 1 \
 		--split "" \
 		--use-feat
+
+
+run-va-asr-experiments-102:
+	python scripts/va_asr/train_va_asr.py \
+	--model-name VAASRCNN1 \
+	--data-dir $(VA_ASR_DIR) \
+	--output-dir results_102
