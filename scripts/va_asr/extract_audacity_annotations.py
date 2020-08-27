@@ -9,9 +9,10 @@ import pydub
 from pydub.effects import normalize
 
 
-SEGMENT_FNAME_REGEX = re.compile("(?P<recording_session_id>r\d+)_(?P<speaker_id>s\d+)_(?P<device_id>d\d+)_(?P<language>\w+)__.*__(?P<label_id>\d+_.*)")
-KNOWN_LANGUAGES = {'maninka', 'susu', 'pular', 'francais', 'english'}
-KNOWN_LABELS = {
+SEGMENT_FNAME_REGEX = re.compile("(?P<recording_session_id>r\d+)_(?P<speaker_id>s\d+)_(?P<device_id>d\d+)_(?P<language>\w+)__.*__(?P<utterance_id>\d+_.*)")
+KNOWN_LANGUAGES = {'maninka', 'susu', 'pular', 'francais', 'english', '_language_independent'}
+KNOWN_GENDERS = {"M", "F"}
+KNOWN_UTTERANCES = {
     "101_wake_word", 
 
     "201_add_contact", 
@@ -64,22 +65,21 @@ KNOWN_LABELS = {
 }
 
 
-
-def process_audio_file(annotation_fname, audio_fname, metadata_dict_writer, args):
+def process_audio_file(annotation_fname, audio_fname, metadata_dict_writer, speakers_dict, args):
     logging.debug(f"processing {audio_fname}...")
     with open(annotation_fname) as f:
         audio_segment = pydub.AudioSegment.from_file(audio_fname)
-        reader = csv.DictReader(f, fieldnames = ["start", "end", "label"], delimiter="\t")
+        reader = csv.DictReader(f, fieldnames = ["start", "end", "marker"], delimiter="\t")
         for a in reader:
             marker_start_ms = float(a["start"]) * 1000
             marker_end_ms = float(a["end"]) * 1000
 
             if(marker_start_ms > len(audio_segment)):
-                logging.error(f"Marker {a['label']} starts after the end of audio segment in {segment_fname.stem}")
+                logging.error(f"Marker {a['marker']} starts after the end of audio segment in {annotation_fname.stem}")
                 continue
             
             if(marker_end_ms > len(audio_segment)):
-                logging.error(f"Marker {a['label']} ends after the end of audio segment in {segment_fname.stem}")
+                logging.error(f"Marker {a['marker']} ends after the end of audio segment in {annotation_fname.stem}")
                 continue
 
             start_ms = marker_start_ms - args.padding_ms
@@ -89,7 +89,7 @@ def process_audio_file(annotation_fname, audio_fname, metadata_dict_writer, args
             segment = segment.set_frame_rate(args.frame_rate)
             segment = segment.set_channels(args.channels)
             
-            segment_fname = Path(args.output_dir) / f"{annotation_fname.stem}__{a['label']}.wav" 
+            segment_fname = Path(args.output_dir) / f"{annotation_fname.stem}__{a['marker']}.wav" 
 
             try:
                 m_record = SEGMENT_FNAME_REGEX.match(segment_fname.stem).groupdict()
@@ -97,14 +97,36 @@ def process_audio_file(annotation_fname, audio_fname, metadata_dict_writer, args
                 logging.error(f"Could not parse annotated segment name: {segment_fname.stem}")
                 continue
             
-            if m_record['label_id'] not in KNOWN_LABELS:
-                logging.error(f"Unknown label {m_record['label_id']} in {annotation_fname} ")
+            if m_record['utterance_id'] not in KNOWN_UTTERANCES:
+                logging.error(f"Unknown utterance {m_record['utterance_id']} in {annotation_fname}")
                 continue
                 
             if m_record['language'] not in KNOWN_LANGUAGES:
-                logging.error(f"Unknown language {m_record['language']} in {annotation_fname} ")
+                logging.error(f"Unknown language {m_record['language']} in {annotation_fname}")
                 continue
 
+            if m_record['speaker_id'] not in speakers_dict:
+                logging.error(f"Unknown speaker {m_record['speaker_id']} in {annotation_fname}")
+                continue
+
+            if speakers_dict[m_record['speaker_id']]['mothertongue'] not in KNOWN_LANGUAGES:
+                logging.error(f"Unknown speaker motherthongue language {speakers_dict[m_record['speaker_id']]['mothertongue']} in {annotation_fname}")
+                continue
+            
+            if speakers_dict[m_record['speaker_id']]['gender'] not in KNOWN_GENDERS:
+                logging.error(f"Unknown speaker gender {speakers_dict[m_record['speaker_id']]['gender']} in {annotation_fname}")
+                continue
+            
+            if m_record['utterance_id'][0] == '5':
+                m_record['language'] = '_language_independent'
+            
+            m_record['label'] = f"{m_record['utterance_id']}__{m_record['language']}"
+
+            m_record['speaker_mothertongue'] = speakers_dict[m_record['speaker_id']]['mothertongue']
+            m_record['speaker_age'] = speakers_dict[m_record['speaker_id']]['age']
+            m_record['speaker_gender'] = speakers_dict[m_record['speaker_id']]['gender']
+            
+            
             m_record["file"] = segment_fname.parts[-1]
             logging.debug(f"writing {segment_fname}...")
             segment.export(segment_fname, format="wav")
@@ -112,13 +134,22 @@ def process_audio_file(annotation_fname, audio_fname, metadata_dict_writer, args
             metadata_dict_writer.writerow(m_record)
 
 
+def load_speakers(args):
+    speakers_fname = Path(args.input_dir) / 'meta' / 'speakers.csv'
+    with open(speakers_fname) as f:
+        reader = csv.DictReader(f)
+        speakers = {r['sid']:r for r in reader}
+    return speakers
+
 
 def main(args):
+    speakers_dict = load_speakers(args)
+
     with open(Path(args.output_dir) / "metadata.csv", "w") as metadata_f:
-        metadata_dict_writer = csv.DictWriter(metadata_f, fieldnames = ["file", "recording_session_id", "speaker_id", "device_id", "language", "label_id"])
+        metadata_dict_writer = csv.DictWriter(metadata_f, fieldnames = ["file", "recording_session_id", "speaker_id", "device_id", "language", "utterance_id", "label", "speaker_age", "speaker_gender", "speaker_mothertongue"])
         metadata_dict_writer.writeheader()
 
-        for annotation_fname in Path(args.input_dir).rglob("*.txt"):
+        for annotation_fname in sorted(Path(args.input_dir).rglob("*.txt")):
             # filter out OSX "._" files!
             if annotation_fname.stem.startswith("._"):
                 continue
@@ -129,7 +160,7 @@ def main(args):
                 continue
             
             try:
-                process_audio_file(annotation_fname, audio_fname, metadata_dict_writer, args)
+                process_audio_file(annotation_fname, audio_fname, metadata_dict_writer, speakers_dict, args)
             except:
                 logging.exception(f"Unable to process {annotation_fname}")
 
