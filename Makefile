@@ -1,10 +1,9 @@
-DATA_DIR = /media/xtrem/data/datasets/radio_data
-BUILD_DIR = /media/xtrem/data/experiments/nicolingua-0001-language-id
+# DATA_DIR = /media/xtrem/data/datasets/radio_data
+# BUILD_DIR = /media/xtrem/data/experiments/nicolingua-0001-language-id
+# VA_ASR_DIR = /media/xtrem/data/experiments/nicolingua-0002-va-asr/datasets/gn_va_asr_dataset_2020-08-26_01
 
-# VA_ASR_DIR = /media/xtrem/data/datasets/guinean_virtual_assistant_speech_recognition
-VA_ASR_DIR = /media/xtrem/data/experiments/nicolingua-0002-va-asr/datasets/gn_va_asr_dataset_2020-08-26_01
-
-export CUDA_VISIBLE_DEVICES=0,1
+# export CUDA_VISIBLE_DEVICES=0,1
+include default.conf
 
 .PHONY: samples features-c features-z clean-samples clean-features-c clean-features-z count-files
 
@@ -383,3 +382,9 @@ run-va-asr-experiments-102:
 	--model-name VAASRCNN1 \
 	--data-dir $(VA_ASR_DIR) \
 	--output-dir results_102
+
+
+cloud-nicolingua-data:
+	mkdir ../nicolingua-data/
+	gsutil rsync -r gs://nicolingua ../nicolingua-data/	
+	tar -xf ../nicolingua-data/experiments/nicolingua-0002-va-asr/datasets/gn_va_asr_dataset_2020-08-26_01.tar.gz --directory ../nicolingua-data/experiments/nicolingua-0002-va-asr/datasets/
