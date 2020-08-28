@@ -14,6 +14,8 @@ def load_metadata(args):
         reader = csv.DictReader(f)
         for r in reader:
             if r['language'] in set(args.selected_languages):
+                r['spoken_in_mothertongue'] = r['speaker_mothertongue'] == r['language']
+
                 yield r
 
 
@@ -70,6 +72,13 @@ def log_data_stats(metadata_records):
         "RECORDS BY SPEAKER BY LANGUAGE\n" +
         "\n".join([f"\t{r}" for r in sorted(count_by_attribute(metadata_records, ['speaker_id', 'language']))])
     )
+
+    logging.info(
+        "RECORDS BY SPOKEN IN MOTHERTONGUE\n" +
+        "\n".join([f"\t{r}" for r in sorted(count_by_attribute(metadata_records, ['spoken_in_mothertongue']))])
+    )
+
+    
 
     logging.info(
         "RECORDS BY SPEAKER BY LABEL\n" +
@@ -181,6 +190,7 @@ def get_bias_categories(metadata_records):
         ,"language"
         ,"speaker_gender"
         ,"speaker_mothertongue"
+        ,"spoken_in_mothertongue"
     ]
 
     bias_categories = {}
