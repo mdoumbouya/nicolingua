@@ -40,7 +40,7 @@ def run_trials(args):
             continue
         
         model_class = getattr(models, args.model_name)
-        model = models.ASRCNN(
+        model = model_class(
             conv_pooling_type = 'avg', 
             conv_dropout_p = p['c_dropout_p'],
             fc_dropout_p = p['f_dropout_p'],
@@ -275,8 +275,8 @@ def parse_arguments():
         "retrained-wav2vec_features-z"
     ]
     DEFAULT_OBJECTIVE_TYPES = ['voice_cmd', 'voice_cmd__and__voice_cmd_lng']
-    DEFAULT_CONV_DROPOUT_PROBABILITIES = [0.2]
-    DEFAULT_FC_DROPOUT_PROBABILITIES = [0.2]
+    DEFAULT_CONV_DROPOUT_PROBABILITIES = [0.5]
+    DEFAULT_FC_DROPOUT_PROBABILITIES = [0.5]
     DEFAULT_SELECTED_LANGUAGES = {'_language_independent', 'francais', 'maninka', 'pular', 'susu'}
 
     # Configure parser
