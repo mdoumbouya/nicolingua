@@ -115,7 +115,7 @@ class VAASRCNN(nn.Module):
             logits_voice_cmd_lng = self.lin62(v)
             return logits_voice_cmd, logits_voice_cmd_lng
         else:
-            raise(f"Unknown objective type: {self.objective_type}")
+            raise ValueError(f"Unknown objective type: {self.objective_type}")
 
 
 
@@ -161,3 +161,4 @@ class VAASRCNN2(VAASRCNN):
             voice_cmd_lng_neuron_count,
             objective_type
         )
+

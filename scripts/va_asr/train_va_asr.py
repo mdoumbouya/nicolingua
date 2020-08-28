@@ -22,18 +22,13 @@ from data import get_loaders_for_fold
 from utils import get_torch_device, get_predictions_for_logits
 
 
-
-
-
-
 def main(args):
     run_trials(args)
     
 
 
-
-
 def run_trials(args):
+    device = get_torch_device(args)
     trial_params = generate_trial_params(args)
     
     for p in trial_params:
@@ -45,14 +40,14 @@ def run_trials(args):
             continue
         
         model_class = getattr(models, args.model_name)
-        model = model_class(
+        model = models.ASRCNN(
             conv_pooling_type = 'avg', 
             conv_dropout_p = p['c_dropout_p'],
             fc_dropout_p = p['f_dropout_p'],
             voice_cmd_neuron_count = 105, 
             voice_cmd_lng_neuron_count = 5,
             objective_type = p['obj']
-        ).to(get_torch_device(args))
+        ).to(device)
 
         epochs_results = train_on_fold(
             model, 
@@ -103,8 +98,8 @@ def generate_trial_params(args):
 
 
 def train(model, optimizer, criterion, objective_type, train_loader):
+    device = get_torch_device(args)
     model.train()
-    device=get_torch_device(args)
     train_loss = 0
 
     for batch_idx, (x, y_voice_cmd, y_voice_cmd_lng) in enumerate(train_loader):
@@ -133,7 +128,6 @@ def train(model, optimizer, criterion, objective_type, train_loader):
 
 def test(model, criterion, objective_type, loader, bias_category_labels):
     device = get_torch_device(args)
-
     model.eval()
     accumulated_loss = 0
 
@@ -292,16 +286,16 @@ def parse_arguments():
     parser.add_argument("--model-name", required=True, choices=["VAASRCNN1", "VAASRCNN2"])
     parser.add_argument("--gpu-id", type=int, default=-1)
     parser.add_argument("--fold-count", type=int, default=10)
-    parser.add_argument("--feature-names", default=DEFAULT_FEATURE_NAMES)
-    parser.add_argument("--objective-types", default=DEFAULT_OBJECTIVE_TYPES)
+    parser.add_argument("--feature-names", nargs="*", default=DEFAULT_FEATURE_NAMES)
+    parser.add_argument("--objective-types", nargs="*", default=DEFAULT_OBJECTIVE_TYPES)
     parser.add_argument("--conv-dropout-probabilities", type=float, nargs="*", default=DEFAULT_CONV_DROPOUT_PROBABILITIES)
     parser.add_argument("--fc-dropout-probabilities", type=float, nargs="*", default=DEFAULT_FC_DROPOUT_PROBABILITIES)
     parser.add_argument("--learning-rate", type=float, default=0.001)
     parser.add_argument("--train-percent", type=float, default=0.7)
     parser.add_argument("--epochs", type=int, default=1000)
-    parser.add_argument("--batch-size", type=int, default=256)
+    parser.add_argument("--batch-size", type=int, default=512)
     parser.add_argument("--max-sequence-length", type=int, default=200)
-    parser.add_argument("--selected-languages", default=DEFAULT_SELECTED_LANGUAGES)
+    parser.add_argument("--selected-languages", nargs="*", default=DEFAULT_SELECTED_LANGUAGES)
 
     # Parse and return args
     return parser.parse_args()
