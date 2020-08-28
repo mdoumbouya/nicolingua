@@ -17,7 +17,7 @@ import torch.optim as optim
 from pytorch_model_summary import summary
 
 import models
-from results import results_exist
+from results import results_exist, save_results
 from data import get_loaders_for_fold
 from utils import get_torch_device, get_predictions_for_logits
 
@@ -64,14 +64,14 @@ def run_trials(args):
         )
 
         # results for only one fold
-        folds_results = [{
-            'fold_index': fold_id,
-            'feature_name': feature_name,
+        trial_results = {
+            'fold_index': p['fold_id'],
+            'feature_name': p['feature'],
             'epochs': epochs_results
-        }]
+        }
         
         
-        save_results(model_name, folds_results)
+        save_results(trial_name, trial_results, args)
         # write_epoch_test_logits(model_name, all_folds_results)
 
         del model
@@ -104,10 +104,10 @@ def generate_trial_params(args):
 
 def train(model, optimizer, criterion, objective_type, train_loader):
     model.train()
+    device=get_torch_device(args)
     train_loss = 0
 
     for batch_idx, (x, y_voice_cmd, y_voice_cmd_lng) in enumerate(train_loader):
-        device=get_torch_device(args)
         x = x.to(device)
         y_voice_cmd = y_voice_cmd.to(device)
         y_voice_cmd_lng = y_voice_cmd_lng.to(device)
@@ -132,6 +132,8 @@ def train(model, optimizer, criterion, objective_type, train_loader):
         
 
 def test(model, criterion, objective_type, loader, bias_category_labels):
+    device = get_torch_device(args)
+
     model.eval()
     accumulated_loss = 0
 
@@ -142,8 +144,6 @@ def test(model, criterion, objective_type, loader, bias_category_labels):
     true_classes_lng = []
 
     for batch_idx, (x, y_voice_cmd, y_voice_cmd_lng) in enumerate(loader):
-        device = get_torch_device(args)
-
         x = x.to(device)
         y_voice_cmd = y_voice_cmd.to(device)
         y_voice_cmd_lng = y_voice_cmd_lng.to(device)
@@ -294,8 +294,8 @@ def parse_arguments():
     parser.add_argument("--fold-count", type=int, default=10)
     parser.add_argument("--feature-names", default=DEFAULT_FEATURE_NAMES)
     parser.add_argument("--objective-types", default=DEFAULT_OBJECTIVE_TYPES)
-    parser.add_argument("--conv-dropout-probabilities", type=int, nargs="*", default=DEFAULT_CONV_DROPOUT_PROBABILITIES)
-    parser.add_argument("--fc-dropout-probabilities", type=int, nargs="*", default=DEFAULT_FC_DROPOUT_PROBABILITIES)
+    parser.add_argument("--conv-dropout-probabilities", type=float, nargs="*", default=DEFAULT_CONV_DROPOUT_PROBABILITIES)
+    parser.add_argument("--fc-dropout-probabilities", type=float, nargs="*", default=DEFAULT_FC_DROPOUT_PROBABILITIES)
     parser.add_argument("--learning-rate", type=float, default=0.001)
     parser.add_argument("--train-percent", type=float, default=0.7)
     parser.add_argument("--epochs", type=int, default=1000)

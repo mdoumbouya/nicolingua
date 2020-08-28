@@ -1,4 +1,5 @@
 from pathlib import Path
+import csv
 
 def get_results_file_path(trial_name, args):
     return Path(args.output_dir) / f"{trial_name}.csv"
@@ -14,9 +15,8 @@ def save_results(trial_name, trial_results, args):
     feature_name = trial_results['feature_name']
     fold_index = trial_results['fold_index']
     
-    Path(RESULTS_DIR).mkdir(exist_ok=True, parents=True)
-    fname = f"{RESULTS_DIR}/{model_name}/{feature_name}_{fold_index}.csv"
-    Path(fname).parent.mkdir(parents=True, exist_ok=True)
+    fname = get_results_file_path(trial_name, args)
+    # Path(fname).parent.mkdir(parents=True, exist_ok=True)
     with open(fname, 'w') as f:
         fieldnames = sorted(trial_results['epochs'][1].keys())
         
