@@ -55,7 +55,7 @@ ${BUILD_DIR}/wav2vec_features-c:
 	python ../fairseq/examples/wav2vec/wav2vec_featurize.py \
 		--input $(BUILD_DIR)/audio_samples \
 		--output ${BUILD_DIR}/wav2vec_features-c \
-		--model /media/xtrem/code/lib/models/acoustic_models/wav2vec/wav2vec_large.pt \
+		--model $(WAV2VEC_BASELINE_CHECKPOINT) \
 		--gpu 0 \
 		--split ""
 
@@ -63,7 +63,7 @@ ${BUILD_DIR}/wav2vec_features-z:
 	python ../fairseq/examples/wav2vec/wav2vec_featurize.py \
 		--input $(BUILD_DIR)/audio_samples \
 		--output ${BUILD_DIR}/wav2vec_features-z \
-		--model /media/xtrem/code/lib/models/acoustic_models/wav2vec/wav2vec_large.pt \
+		--model $(WAV2VEC_BASELINE_CHECKPOINT) \
 		--gpu 1 \
 		--split "" \
 		--use-feat
