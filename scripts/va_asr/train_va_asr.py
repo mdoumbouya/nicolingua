@@ -283,7 +283,7 @@ def parse_arguments():
     parser = ArgumentParser()
     parser.add_argument("--data-dir", required=True)
     parser.add_argument("--output-dir", required=True)
-    parser.add_argument("--model-name", required=True, choices=["VAASRCNN1", "VAASRCNN2"])
+    parser.add_argument("--model-name", required=True, choices=["VAASRCNN1", "VAASRCNN2", "VAASRCNN3"])
     parser.add_argument("--gpu-id", type=int, default=-1)
     parser.add_argument("--fold-count", type=int, default=10)
     parser.add_argument("--feature-names", nargs="*", default=DEFAULT_FEATURE_NAMES)

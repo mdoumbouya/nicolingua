@@ -162,3 +162,24 @@ class VAASRCNN2(VAASRCNN):
             objective_type
         )
 
+class VAASRCNN3(VAASRCNN):
+    def __init__(
+            self, 
+            conv_pooling_type, 
+            conv_dropout_p, 
+            fc_dropout_p, 
+            voice_cmd_neuron_count, 
+            voice_cmd_lng_neuron_count,
+            objective_type
+        ):
+
+        super(VAASRCNN3, self).__init__(
+            [16, 32, 64, 128, 256],
+            conv_pooling_type, 
+            conv_dropout_p, 
+            fc_dropout_p, 
+            voice_cmd_neuron_count, 
+            voice_cmd_lng_neuron_count,
+            objective_type
+        )
+
