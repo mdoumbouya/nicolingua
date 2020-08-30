@@ -1,0 +1,23 @@
+2020-08-29T13:18:04+0000:10:Using cuda device: cuda:0
+2020-08-29T13:18:04+0000:20:Generated trials: 
+2020-08-29T13:18:04+0000:20:{'fold_id': 0, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'wav2vec_features-c', 'obj': 'voice_cmd'}
+2020-08-29T13:18:04+0000:20:{'fold_id': 0, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'wav2vec_features-z', 'obj': 'voice_cmd'}
+2020-08-29T13:18:04+0000:20:{'fold_id': 0, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'retrained-wav2vec_features-c', 'obj': 'voice_cmd'}
+2020-08-29T13:18:04+0000:20:{'fold_id': 0, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'retrained-wav2vec_features-z', 'obj': 'voice_cmd'}
+2020-08-29T13:18:04+0000:20:{'fold_id': 1, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'wav2vec_features-c', 'obj': 'voice_cmd'}
+2020-08-29T13:18:04+0000:20:{'fold_id': 1, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'wav2vec_features-z', 'obj': 'voice_cmd'}
+2020-08-29T13:18:04+0000:20:{'fold_id': 1, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'retrained-wav2vec_features-c', 'obj': 'voice_cmd'}
+2020-08-29T13:18:04+0000:20:{'fold_id': 1, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'retrained-wav2vec_features-z', 'obj': 'voice_cmd'}
+2020-08-29T13:18:04+0000:20:{'fold_id': 2, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'wav2vec_features-c', 'obj': 'voice_cmd'}
+2020-08-29T13:18:04+0000:20:{'fold_id': 2, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'wav2vec_features-z', 'obj': 'voice_cmd'}
+2020-08-29T13:18:04+0000:20:{'fold_id': 2, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'retrained-wav2vec_features-c', 'obj': 'voice_cmd'}
+2020-08-29T13:18:04+0000:20:{'fold_id': 2, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'retrained-wav2vec_features-z', 'obj': 'voice_cmd'}
+2020-08-29T13:18:04+0000:20:{'fold_id': 3, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'wav2vec_features-c', 'obj': 'voice_cmd'}
+2020-08-29T13:18:04+0000:20:{'fold_id': 3, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'wav2vec_features-z', 'obj': 'voice_cmd'}
+2020-08-29T13:18:04+0000:20:{'fold_id': 3, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'retrained-wav2vec_features-c', 'obj': 'voice_cmd'}
+2020-08-29T13:18:04+0000:20:{'fold_id': 3, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'retrained-wav2vec_features-z', 'obj': 'voice_cmd'}
+2020-08-29T13:18:04+0000:20:{'fold_id': 4, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'wav2vec_features-c', 'obj': 'voice_cmd'}
+2020-08-29T13:18:04+0000:20:{'fold_id': 4, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'wav2vec_features-z', 'obj': 'voice_cmd'}
+2020-08-29T13:18:04+0000:20:{'fold_id': 4, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'retrained-wav2vec_features-c', 'obj': 'voice_cmd'}
+2020-08-29T13:18:04+0000:20:{'fold_id': 4, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'retrained-wav2vec_features-z', 'obj': 'voice_cmd'}
+2020-08-29T13:18:04+0000:20:running trial: VAASRCNN3__c_dropout_p_0.5__f_dropout_p_0.5__feature_wav2vec_features-c__fold_id_0__obj_voice_cmd
