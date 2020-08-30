@@ -409,6 +409,20 @@ run-va-asr-experiments-102-cnn3:
 	--objective-types voice_cmd \
 
 
+run-va-asr-experiments-102-cnn3-dropout-0.6:
+	python scripts/va_asr/train_va_asr.py \
+	--model-name VAASRCNN3 \
+	--data-dir $(VA_ASR_DIR) \
+	--output-dir notebooks/E102/results_102 \
+	--epochs 1000 \
+	--gpu-id 1 \
+	--fold-count 5 \
+	--objective-types voice_cmd \
+	--conv-dropout-probabilities 0.6 \
+	--fc-dropout-probabilities 0.6 \
+
+
+
 cloud-nicolingua-data:
 	mkdir ../nicolingua-data/
 	gsutil rsync -r gs://nicolingua ../nicolingua-data/	
