@@ -1,0 +1,481 @@
+2020-08-31T23:48:16+0000:10:Using cuda device: cuda:1
+2020-08-31T23:48:16+0000:20:Generated trials: 
+2020-08-31T23:48:16+0000:20:{'fold_id': 0, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'mel_spectrogram', 'obj': 'voice_cmd'}
+2020-08-31T23:48:16+0000:20:{'fold_id': 1, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'mel_spectrogram', 'obj': 'voice_cmd'}
+2020-08-31T23:48:16+0000:20:{'fold_id': 2, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'mel_spectrogram', 'obj': 'voice_cmd'}
+2020-08-31T23:48:16+0000:20:{'fold_id': 3, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'mel_spectrogram', 'obj': 'voice_cmd'}
+2020-08-31T23:48:16+0000:20:{'fold_id': 4, 'c_dropout_p': 0.5, 'f_dropout_p': 0.5, 'feature': 'mel_spectrogram', 'obj': 'voice_cmd'}
+2020-08-31T23:48:16+0000:20:running trial: VASRSpectrogramCNN__c_dropout_p_0.5__f_dropout_p_0.5__feature_mel_spectrogram__fold_id_0__obj_voice_cmd
+2020-08-31T23:48:18+0000:10:Using cuda device: cuda:1
+2020-08-31T23:48:18+0000:20:RECORDS BY DEVICE
+	(('d001',), 2759)
+	(('d002',), 2759)
+	(('d003',), 2759)
+2020-08-31T23:48:18+0000:20:RECORDS BY LANGUAGE
+	(('_language_independent',), 3072)
+	(('francais',), 1260)
+	(('maninka',), 1356)
+	(('pular',), 909)
+	(('susu',), 1680)
+2020-08-31T23:48:18+0000:20:RECORDS BY GENDER
+	(('F',), 2820)
+	(('M',), 5457)
+2020-08-31T23:48:18+0000:20:RECORDS BY AGE
+	(('12',), 237)
+	(('13',), 252)
+	(('15',), 603)
+	(('17',), 1050)
+	(('18',), 855)
+	(('19',), 291)
+	(('20',), 291)
+	(('27',), 255)
+	(('28',), 183)
+	(('29',), 237)
+	(('31',), 255)
+	(('32',), 291)
+	(('33',), 183)
+	(('34',), 129)
+	(('35',), 498)
+	(('37',), 309)
+	(('38',), 441)
+	(('43',), 183)
+	(('44',), 540)
+	(('5',), 129)
+	(('55',), 183)
+	(('61',), 390)
+	(('63',), 237)
+	(('67',), 255)
+2020-08-31T23:48:18+0000:20:RECORDS BY SPEAKER
+	(('s001',), 183)
+	(('s002',), 129)
+	(('s003',), 183)
+	(('s004',), 183)
+	(('s005',), 129)
+	(('s006',), 129)
+	(('s007',), 183)
+	(('s008',), 129)
+	(('s009',), 237)
+	(('s010',), 291)
+	(('s011',), 129)
+	(('s012',), 183)
+	(('s013',), 129)
+	(('s014',), 237)
+	(('s015',), 291)
+	(('s016',), 183)
+	(('s017',), 237)
+	(('s018',), 237)
+	(('s019',), 237)
+	(('s020',), 291)
+	(('s021',), 291)
+	(('s022',), 183)
+	(('s023',), 309)
+	(('s024',), 255)
+	(('s025',), 315)
+	(('s026',), 252)
+	(('s027',), 540)
+	(('s028',), 540)
+	(('s029',), 390)
+	(('s030',), 195)
+	(('s031',), 252)
+	(('s032',), 315)
+	(('s033',), 255)
+	(('s034',), 255)
+2020-08-31T23:48:19+0000:20:RECORDS BY SPEAKER BY LANGUAGE
+	(('s001', '_language_independent'), 75)
+	(('s001', 'francais'), 0)
+	(('s001', 'maninka'), 54)
+	(('s001', 'pular'), 0)
+	(('s001', 'susu'), 54)
+	(('s002', '_language_independent'), 75)
+	(('s002', 'francais'), 0)
+	(('s002', 'maninka'), 54)
+	(('s002', 'pular'), 0)
+	(('s002', 'susu'), 0)
+	(('s003', '_language_independent'), 75)
+	(('s003', 'francais'), 0)
+	(('s003', 'maninka'), 54)
+	(('s003', 'pular'), 0)
+	(('s003', 'susu'), 54)
+	(('s004', '_language_independent'), 75)
+	(('s004', 'francais'), 0)
+	(('s004', 'maninka'), 54)
+	(('s004', 'pular'), 0)
+	(('s004', 'susu'), 54)
+	(('s005', '_language_independent'), 75)
+	(('s005', 'francais'), 0)
+	(('s005', 'maninka'), 0)
+	(('s005', 'pular'), 0)
+	(('s005', 'susu'), 54)
+	(('s006', '_language_independent'), 75)
+	(('s006', 'francais'), 0)
+	(('s006', 'maninka'), 54)
+	(('s006', 'pular'), 0)
+	(('s006', 'susu'), 0)
+	(('s007', '_language_independent'), 75)
+	(('s007', 'francais'), 0)
+	(('s007', 'maninka'), 0)
+	(('s007', 'pular'), 54)
+	(('s007', 'susu'), 54)
+	(('s008', '_language_independent'), 75)
+	(('s008', 'francais'), 0)
+	(('s008', 'maninka'), 54)
+	(('s008', 'pular'), 0)
+	(('s008', 'susu'), 0)
+	(('s009', '_language_independent'), 75)
+	(('s009', 'francais'), 54)
+	(('s009', 'maninka'), 0)
+	(('s009', 'pular'), 54)
+	(('s009', 'susu'), 54)
+	(('s010', '_language_independent'), 75)
+	(('s010', 'francais'), 54)
+	(('s010', 'maninka'), 54)
+	(('s010', 'pular'), 54)
+	(('s010', 'susu'), 54)
+	(('s011', '_language_independent'), 75)
+	(('s011', 'francais'), 0)
+	(('s011', 'maninka'), 0)
+	(('s011', 'pular'), 0)
+	(('s011', 'susu'), 54)
+	(('s012', '_language_independent'), 75)
+	(('s012', 'francais'), 54)
+	(('s012', 'maninka'), 0)
+	(('s012', 'pular'), 0)
+	(('s012', 'susu'), 54)
+	(('s013', '_language_independent'), 75)
+	(('s013', 'francais'), 0)
+	(('s013', 'maninka'), 0)
+	(('s013', 'pular'), 0)
+	(('s013', 'susu'), 54)
+	(('s014', '_language_independent'), 75)
+	(('s014', 'francais'), 54)
+	(('s014', 'maninka'), 54)
+	(('s014', 'pular'), 0)
+	(('s014', 'susu'), 54)
+	(('s015', '_language_independent'), 75)
+	(('s015', 'francais'), 54)
+	(('s015', 'maninka'), 54)
+	(('s015', 'pular'), 54)
+	(('s015', 'susu'), 54)
+	(('s016', '_language_independent'), 75)
+	(('s016', 'francais'), 0)
+	(('s016', 'maninka'), 54)
+	(('s016', 'pular'), 0)
+	(('s016', 'susu'), 54)
+	(('s017', '_language_independent'), 75)
+	(('s017', 'francais'), 54)
+	(('s017', 'maninka'), 0)
+	(('s017', 'pular'), 54)
+	(('s017', 'susu'), 54)
+	(('s018', '_language_independent'), 75)
+	(('s018', 'francais'), 54)
+	(('s018', 'maninka'), 0)
+	(('s018', 'pular'), 54)
+	(('s018', 'susu'), 54)
+	(('s019', '_language_independent'), 75)
+	(('s019', 'francais'), 54)
+	(('s019', 'maninka'), 54)
+	(('s019', 'pular'), 0)
+	(('s019', 'susu'), 54)
+	(('s020', '_language_independent'), 75)
+	(('s020', 'francais'), 54)
+	(('s020', 'maninka'), 54)
+	(('s020', 'pular'), 54)
+	(('s020', 'susu'), 54)
+	(('s021', '_language_independent'), 75)
+	(('s021', 'francais'), 54)
+	(('s021', 'maninka'), 54)
+	(('s021', 'pular'), 54)
+	(('s021', 'susu'), 54)
+	(('s022', '_language_independent'), 75)
+	(('s022', 'francais'), 0)
+	(('s022', 'maninka'), 54)
+	(('s022', 'pular'), 0)
+	(('s022', 'susu'), 54)
+	(('s023', '_language_independent'), 75)
+	(('s023', 'francais'), 60)
+	(('s023', 'maninka'), 60)
+	(('s023', 'pular'), 60)
+	(('s023', 'susu'), 54)
+	(('s024', '_language_independent'), 75)
+	(('s024', 'francais'), 60)
+	(('s024', 'maninka'), 60)
+	(('s024', 'pular'), 0)
+	(('s024', 'susu'), 60)
+	(('s025', '_language_independent'), 75)
+	(('s025', 'francais'), 60)
+	(('s025', 'maninka'), 60)
+	(('s025', 'pular'), 60)
+	(('s025', 'susu'), 60)
+	(('s026', '_language_independent'), 72)
+	(('s026', 'francais'), 60)
+	(('s026', 'maninka'), 60)
+	(('s026', 'pular'), 0)
+	(('s026', 'susu'), 60)
+	(('s027', '_language_independent'), 300)
+	(('s027', 'francais'), 60)
+	(('s027', 'maninka'), 60)
+	(('s027', 'pular'), 60)
+	(('s027', 'susu'), 60)
+	(('s028', '_language_independent'), 300)
+	(('s028', 'francais'), 60)
+	(('s028', 'maninka'), 60)
+	(('s028', 'pular'), 60)
+	(('s028', 'susu'), 60)
+	(('s029', '_language_independent'), 150)
+	(('s029', 'francais'), 60)
+	(('s029', 'maninka'), 60)
+	(('s029', 'pular'), 60)
+	(('s029', 'susu'), 60)
+	(('s030', '_language_independent'), 75)
+	(('s030', 'francais'), 60)
+	(('s030', 'maninka'), 0)
+	(('s030', 'pular'), 60)
+	(('s030', 'susu'), 0)
+	(('s031', '_language_independent'), 75)
+	(('s031', 'francais'), 60)
+	(('s031', 'maninka'), 0)
+	(('s031', 'pular'), 57)
+	(('s031', 'susu'), 60)
+	(('s032', '_language_independent'), 75)
+	(('s032', 'francais'), 60)
+	(('s032', 'maninka'), 60)
+	(('s032', 'pular'), 60)
+	(('s032', 'susu'), 60)
+	(('s033', '_language_independent'), 75)
+	(('s033', 'francais'), 60)
+	(('s033', 'maninka'), 60)
+	(('s033', 'pular'), 0)
+	(('s033', 'susu'), 60)
+	(('s034', '_language_independent'), 75)
+	(('s034', 'francais'), 60)
+	(('s034', 'maninka'), 60)
+	(('s034', 'pular'), 0)
+	(('s034', 'susu'), 60)
+2020-08-31T23:48:19+0000:20:RECORDS BY SPOKEN IN MOTHERTONGUE
+	((False,), 6372)
+	((True,), 1905)
+2020-08-31T23:48:20+0000:20:RECORDS BY SPEAKER BY LABEL
+	(('101_wake_word__francais',), 66)
+	(('101_wake_word__maninka',), 72)
+	(('101_wake_word__pular',), 48)
+	(('101_wake_word__susu',), 90)
+	(('201_add_contact__francais',), 66)
+	(('201_add_contact__maninka',), 72)
+	(('201_add_contact__pular',), 48)
+	(('201_add_contact__susu',), 90)
+	(('202_search_contact__francais',), 66)
+	(('202_search_contact__maninka',), 72)
+	(('202_search_contact__pular',), 48)
+	(('202_search_contact__susu',), 90)
+	(('203_update_contact__francais',), 66)
+	(('203_update_contact__maninka',), 72)
+	(('203_update_contact__pular',), 48)
+	(('203_update_contact__susu',), 90)
+	(('204_delete_contact__francais',), 66)
+	(('204_delete_contact__maninka',), 72)
+	(('204_delete_contact__pular',), 48)
+	(('204_delete_contact__susu',), 90)
+	(('205_call_contact__francais',), 66)
+	(('205_call_contact__maninka',), 72)
+	(('205_call_contact__pular',), 45)
+	(('205_call_contact__susu',), 90)
+	(('206_yes__francais',), 66)
+	(('206_yes__maninka',), 72)
+	(('206_yes__pular',), 48)
+	(('206_yes__susu',), 90)
+	(('207_no__francais',), 66)
+	(('207_no__maninka',), 72)
+	(('207_no__pular',), 48)
+	(('207_no__susu',), 90)
+	(('301_zero__francais',), 66)
+	(('301_zero__maninka',), 72)
+	(('301_zero__pular',), 48)
+	(('301_zero__susu',), 90)
+	(('302_one__francais',), 66)
+	(('302_one__maninka',), 72)
+	(('302_one__pular',), 48)
+	(('302_one__susu',), 90)
+	(('303_two__francais',), 66)
+	(('303_two__maninka',), 72)
+	(('303_two__pular',), 48)
+	(('303_two__susu',), 90)
+	(('304_three__francais',), 66)
+	(('304_three__maninka',), 72)
+	(('304_three__pular',), 48)
+	(('304_three__susu',), 90)
+	(('305_four__francais',), 66)
+	(('305_four__maninka',), 72)
+	(('305_four__pular',), 48)
+	(('305_four__susu',), 90)
+	(('306_five__francais',), 66)
+	(('306_five__maninka',), 72)
+	(('306_five__pular',), 48)
+	(('306_five__susu',), 90)
+	(('307_six__francais',), 66)
+	(('307_six__maninka',), 72)
+	(('307_six__pular',), 48)
+	(('307_six__susu',), 90)
+	(('308_seven__francais',), 66)
+	(('308_seven__maninka',), 72)
+	(('308_seven__pular',), 48)
+	(('308_seven__susu',), 90)
+	(('309_eight__francais',), 66)
+	(('309_eight__maninka',), 72)
+	(('309_eight__pular',), 48)
+	(('309_eight__susu',), 90)
+	(('310_nine__francais',), 66)
+	(('310_nine__maninka',), 72)
+	(('310_nine__pular',), 48)
+	(('310_nine__susu',), 90)
+	(('401_mom__francais',), 36)
+	(('401_mom__maninka',), 30)
+	(('401_mom__pular',), 24)
+	(('401_mom__susu',), 30)
+	(('402_dad__francais',), 36)
+	(('402_dad__maninka',), 30)
+	(('402_dad__pular',), 24)
+	(('402_dad__susu',), 30)
+	(('501_fatoumata___language_independent',), 123)
+	(('502_mamadou___language_independent',), 123)
+	(('503_mariama___language_independent',), 123)
+	(('504_mohamed___language_independent',), 123)
+	(('505_kadiatou___language_independent',), 123)
+	(('506_ibrahima___language_independent',), 123)
+	(('507_aissatou___language_independent',), 123)
+	(('508_aminata___language_independent',), 123)
+	(('509_alpha___language_independent',), 123)
+	(('510_thierno___language_independent',), 120)
+	(('511_abdoulaye___language_independent',), 123)
+	(('512_aboubacar___language_independent',), 123)
+	(('513_amadou___language_independent',), 123)
+	(('514_fanta___language_independent',), 123)
+	(('515_mariame___language_independent',), 123)
+	(('516_oumou___language_independent',), 123)
+	(('517_ousmane___language_independent',), 123)
+	(('518_adama___language_independent',), 123)
+	(('519_marie___language_independent',), 123)
+	(('520_moussa___language_independent',), 123)
+	(('521_aissata___language_independent',), 123)
+	(('522_hawa___language_independent',), 123)
+	(('523_sekou___language_independent',), 123)
+	(('524_hadja___language_independent',), 123)
+	(('525_djenabou___language_independent',), 123)
+2020-08-31T23:48:20+0000:20:Classes - Voice Commands:
+   0: 101_wake_word__francais
+   1: 101_wake_word__maninka
+   2: 101_wake_word__pular
+   3: 101_wake_word__susu
+   4: 201_add_contact__francais
+   5: 201_add_contact__maninka
+   6: 201_add_contact__pular
+   7: 201_add_contact__susu
+   8: 202_search_contact__francais
+   9: 202_search_contact__maninka
+  10: 202_search_contact__pular
+  11: 202_search_contact__susu
+  12: 203_update_contact__francais
+  13: 203_update_contact__maninka
+  14: 203_update_contact__pular
+  15: 203_update_contact__susu
+  16: 204_delete_contact__francais
+  17: 204_delete_contact__maninka
+  18: 204_delete_contact__pular
+  19: 204_delete_contact__susu
+  20: 205_call_contact__francais
+  21: 205_call_contact__maninka
+  22: 205_call_contact__pular
+  23: 205_call_contact__susu
+  24: 206_yes__francais
+  25: 206_yes__maninka
+  26: 206_yes__pular
+  27: 206_yes__susu
+  28: 207_no__francais
+  29: 207_no__maninka
+  30: 207_no__pular
+  31: 207_no__susu
+  32: 301_zero__francais
+  33: 301_zero__maninka
+  34: 301_zero__pular
+  35: 301_zero__susu
+  36: 302_one__francais
+  37: 302_one__maninka
+  38: 302_one__pular
+  39: 302_one__susu
+  40: 303_two__francais
+  41: 303_two__maninka
+  42: 303_two__pular
+  43: 303_two__susu
+  44: 304_three__francais
+  45: 304_three__maninka
+  46: 304_three__pular
+  47: 304_three__susu
+  48: 305_four__francais
+  49: 305_four__maninka
+  50: 305_four__pular
+  51: 305_four__susu
+  52: 306_five__francais
+  53: 306_five__maninka
+  54: 306_five__pular
+  55: 306_five__susu
+  56: 307_six__francais
+  57: 307_six__maninka
+  58: 307_six__pular
+  59: 307_six__susu
+  60: 308_seven__francais
+  61: 308_seven__maninka
+  62: 308_seven__pular
+  63: 308_seven__susu
+  64: 309_eight__francais
+  65: 309_eight__maninka
+  66: 309_eight__pular
+  67: 309_eight__susu
+  68: 310_nine__francais
+  69: 310_nine__maninka
+  70: 310_nine__pular
+  71: 310_nine__susu
+  72: 401_mom__francais
+  73: 401_mom__maninka
+  74: 401_mom__pular
+  75: 401_mom__susu
+  76: 402_dad__francais
+  77: 402_dad__maninka
+  78: 402_dad__pular
+  79: 402_dad__susu
+  80: 501_fatoumata___language_independent
+  81: 502_mamadou___language_independent
+  82: 503_mariama___language_independent
+  83: 504_mohamed___language_independent
+  84: 505_kadiatou___language_independent
+  85: 506_ibrahima___language_independent
+  86: 507_aissatou___language_independent
+  87: 508_aminata___language_independent
+  88: 509_alpha___language_independent
+  89: 510_thierno___language_independent
+  90: 511_abdoulaye___language_independent
+  91: 512_aboubacar___language_independent
+  92: 513_amadou___language_independent
+  93: 514_fanta___language_independent
+  94: 515_mariame___language_independent
+  95: 516_oumou___language_independent
+  96: 517_ousmane___language_independent
+  97: 518_adama___language_independent
+  98: 519_marie___language_independent
+  99: 520_moussa___language_independent
+ 100: 521_aissata___language_independent
+ 101: 522_hawa___language_independent
+ 102: 523_sekou___language_independent
+ 103: 524_hadja___language_independent
+ 104: 525_djenabou___language_independent
+2020-08-31T23:48:20+0000:20:Classes - Voice Command Languages:
+  0: _language_independent
+  1: francais
+  2: maninka
+  3: pular
+  4: susu
+2020-08-31T23:48:20+0000:20:Classes - Speaker Mothertongues:
+  0: maninka
+  1: pular
+  2: susu
+2020-08-31T23:48:20+0000:20:Classes - Speaker Gender
+2020-08-31T23:48:20+0000:20:  0: F
+2020-08-31T23:48:20+0000:20:  1: M
