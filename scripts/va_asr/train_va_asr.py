@@ -41,6 +41,7 @@ def run_trials(args):
         
         model_class = getattr(models, args.model_name)
         model = model_class(
+            input_channels = args.input_channels,
             conv_pooling_type = 'avg', 
             conv_dropout_p = p['c_dropout_p'],
             fc_dropout_p = p['f_dropout_p'],
@@ -205,7 +206,7 @@ def train_on_fold(model, fold_id, feature_name, objective_type, batch_size, epoc
     
     train_loader, test_loader, train_bias_category_labels, test_bias_category_labels = get_loaders_for_fold(fold_id, feature_name, batch_size, args)
 
-    logging.info("Model Summary :\n" + summary(model, torch.zeros((10, args.max_sequence_length, 512)).to(device), show_input=False))
+    logging.info("Model Summary :\n" + summary(model, torch.zeros((10, args.max_sequence_length, model.input_channels)).to(device), show_input=False))
     logging.info(f"train_n: {len(train_loader.dataset)}")
     logging.info(f"test_n: {len(test_loader.dataset)}")
 
@@ -283,7 +284,7 @@ def parse_arguments():
     parser = ArgumentParser()
     parser.add_argument("--data-dir", required=True)
     parser.add_argument("--output-dir", required=True)
-    parser.add_argument("--model-name", required=True, choices=["VAASRCNN1", "VAASRCNN2", "VAASRCNN3"])
+    parser.add_argument("--model-name", required=True, choices=["VAASRCNN1", "VAASRCNN2", "VAASRCNN3", "VASRSpectrogramCNN"])
     parser.add_argument("--gpu-id", type=int, default=-1)
     parser.add_argument("--fold-count", type=int, default=10)
     parser.add_argument("--feature-names", nargs="*", default=DEFAULT_FEATURE_NAMES)
@@ -295,10 +296,12 @@ def parse_arguments():
     parser.add_argument("--epochs", type=int, default=1000)
     parser.add_argument("--batch-size", type=int, default=512)
     parser.add_argument("--max-sequence-length", type=int, default=200)
+    parser.add_argument("--input-channels", type=int, default=512)
     parser.add_argument("--selected-languages", nargs="*", default=DEFAULT_SELECTED_LANGUAGES)
 
     # Parse and return args
-    return parser.parse_args()
+    args =  parser.parse_args()
+    return args
 
 
 def configure_logging(args):

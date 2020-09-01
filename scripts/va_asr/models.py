@@ -4,6 +4,7 @@ import torch.nn.functional as F
 
 class VAASRCNN(nn.Module):
     def __init__(self,
+            input_channels,
             conv_channels,
             conv_pooling_type, 
             conv_dropout_p, 
@@ -14,6 +15,9 @@ class VAASRCNN(nn.Module):
             ):
 
         super(VAASRCNN, self).__init__()
+
+
+        self.input_channels = input_channels
         
         if conv_pooling_type not in {"max", "avg"}:
             raise ValueError(f"Unknown Conv Pooling Type: {conv_pooling_type}")
@@ -28,7 +32,7 @@ class VAASRCNN(nn.Module):
         self.objective_type = objective_type
         
         self.conv0 = nn.Conv1d(
-            in_channels=512, 
+            in_channels=input_channels, 
             out_channels=conv_channels[0], 
             kernel_size=1
             )
@@ -75,13 +79,13 @@ class VAASRCNN(nn.Module):
                 
     def forward(self, x):
         x = x.permute(0, 2, 1)
+        
         x = self.conv0(x)
         
         x = self.conv1(x)
         x = F.elu(x)
         x = self.drop1(x)
         x = self.pool1(x)
-        
         
         x = self.conv2(x)
         x = F.elu(x)
@@ -121,7 +125,8 @@ class VAASRCNN(nn.Module):
 
 class VAASRCNN1(VAASRCNN):
     def __init__(
-            self, 
+            self,
+            input_channels,
             conv_pooling_type, 
             conv_dropout_p, 
             fc_dropout_p, 
@@ -131,6 +136,7 @@ class VAASRCNN1(VAASRCNN):
         ):
 
         super(VAASRCNN1, self).__init__(
+            input_channels,
             [8, 8, 16, 32, 64],
             conv_pooling_type, 
             conv_dropout_p, 
@@ -143,7 +149,8 @@ class VAASRCNN1(VAASRCNN):
 
 class VAASRCNN2(VAASRCNN):
     def __init__(
-            self, 
+            self,
+            input_channels,
             conv_pooling_type, 
             conv_dropout_p, 
             fc_dropout_p, 
@@ -153,6 +160,7 @@ class VAASRCNN2(VAASRCNN):
         ):
 
         super(VAASRCNN2, self).__init__(
+            input_channels,
             [8, 16, 32, 64, 128],
             conv_pooling_type, 
             conv_dropout_p, 
@@ -164,7 +172,8 @@ class VAASRCNN2(VAASRCNN):
 
 class VAASRCNN3(VAASRCNN):
     def __init__(
-            self, 
+            self,
+            input_channels, 
             conv_pooling_type, 
             conv_dropout_p, 
             fc_dropout_p, 
@@ -174,6 +183,7 @@ class VAASRCNN3(VAASRCNN):
         ):
 
         super(VAASRCNN3, self).__init__(
+            input_channels,
             [16, 32, 64, 128, 256],
             conv_pooling_type, 
             conv_dropout_p, 
@@ -182,4 +192,3 @@ class VAASRCNN3(VAASRCNN):
             voice_cmd_lng_neuron_count,
             objective_type
         )
-

@@ -6,6 +6,7 @@ import numpy as np
 import h5py
 import torch
 from torch.utils.data import TensorDataset, DataLoader
+import torchaudio
 
 
 def load_metadata(args):
@@ -167,6 +168,12 @@ def generate_train_test_records_per_fold(args):
 
 
 def load_features(records, feature_name, args):
+    if feature_name == 'mel_spectrogram':
+        return load_mel_spectrogram_features(records, args)
+    return load_saved_features(records, feature_name, args)
+
+
+def load_saved_features(records, feature_name, args):
     features_list = []
     features_input_dir = Path(args.data_dir) / feature_name
 
@@ -182,6 +189,31 @@ def load_features(records, feature_name, args):
             
             features_list.append(padded_features)
     return features_list
+
+
+def load_mel_spectrogram_features(records, args):
+    audio_base_dir = Path(args.data_dir) / "annotated_segments"
+
+    features_list = []
+    for r in records:
+        audio_file_path = audio_base_dir / r['file']
+
+        waveform, sample_rate = torchaudio.load(audio_file_path)
+        specgram = torchaudio.transforms.MelSpectrogram()(waveform).numpy()
+        
+        assert specgram.shape[0] == 1
+        specgram = specgram[0, :, :].T
+        
+        padded_features = np.zeros((args.max_sequence_length, specgram.shape[1]), dtype=specgram.dtype)
+        padded_features[:specgram.shape[0],:] = specgram
+        
+
+        features_list.append(padded_features)
+
+    return features_list
+
+
+
 
 
 def get_bias_categories(metadata_records):
