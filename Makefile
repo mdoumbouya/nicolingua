@@ -496,6 +496,38 @@ run-va-asr-experiments-104-cnn2-dropout-0.5:
 	--conv-dropout-probabilities 0.5 \
 	--fc-dropout-probabilities 0.5 \
 
+run-va-asr-experiments-104-cnn2-spectrogram-dropout-0.5:
+	python scripts/va_asr/train_va_asr.py \
+	--model-name VAASRCNN2 \
+	--data-dir $(VA_ASR_DIR) \
+	--output-dir notebooks/E104/results_104 \
+	--epochs 1000 \
+	--gpu-id 1 \
+	--fold-count 5 \
+	--feature-names mel_spectrogram \
+	--max-sequence-length 200 \
+	--input-channels 128 \
+	--objective-types voice_cmd \
+	--selected-languages maninka pular susu \
+	--conv-dropout-probabilities 0.5 \
+	--fc-dropout-probabilities 0.5 \
+
+
+
+
+# voice command and language id
+run-va-asr-experiments-105-cnn3-voice_simult_obj_dropout-0.6:
+	python scripts/va_asr/train_va_asr.py \
+	--model-name VAASRCNN3 \
+	--data-dir $(VA_ASR_DIR) \
+	--output-dir notebooks/E105/results_105 \
+	--epochs 1000 \
+	--gpu-id 1 \
+	--fold-count 5 \
+	--objective-types voice_cmd__and__voice_cmd_lng \
+	--conv-dropout-probabilities 0.6 \
+	--fc-dropout-probabilities 0.6 \
+
 
 cloud-nicolingua-data:
 	mkdir ../nicolingua-data/
