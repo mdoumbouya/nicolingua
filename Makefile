@@ -451,10 +451,6 @@ run-va-asr-experiments-102-cnn3-spectrogram:
 	--fc-dropout-probabilities 0.5 0.6 0.7 \
 
 
-
-
-
-
 # Experiemnts E103: Remove french from language set
 run-va-asr-experiments-103-cnn3:
 	python scripts/va_asr/train_va_asr.py \
@@ -513,9 +509,7 @@ run-va-asr-experiments-104-cnn2-spectrogram-dropout-0.5:
 	--fc-dropout-probabilities 0.5 \
 
 
-
-
-# voice command and language id
+# Experiments 105. Multi-objective (langid + asr) voice command and language id
 run-va-asr-experiments-105-cnn3-voice_simult_obj_dropout-0.6:
 	python scripts/va_asr/train_va_asr.py \
 	--model-name VAASRCNN3 \
@@ -529,6 +523,34 @@ run-va-asr-experiments-105-cnn3-voice_simult_obj_dropout-0.6:
 	--fc-dropout-probabilities 0.6 \
 
 
+
+# Experiments 106. Cong Pooling and Aggregate Pooling variants
+run-va-asr-experiments-106-cnn3-pool-avg-aggmax-dropout-0.6:
+	python scripts/va_asr/train_va_asr.py \
+	--model-name VAASRCNN3PoolAvgAggMax \
+	--data-dir $(VA_ASR_DIR) \
+	--output-dir notebooks/E106/results_106 \
+	--epochs 1000 \
+	--gpu-id 0 \
+	--fold-count 5 \
+	--objective-types voice_cmd \
+	--conv-dropout-probabilities 0.6 \
+	--fc-dropout-probabilities 0.6 \
+
+run-va-asr-experiments-106-cnn3-pool-max-aggmax-dropout-0.6:
+	python scripts/va_asr/train_va_asr.py \
+	--model-name VAASRCNN3PoolMaxAggMax \
+	--data-dir $(VA_ASR_DIR) \
+	--output-dir notebooks/E106/results_106 \
+	--epochs 1000 \
+	--gpu-id 1 \
+	--fold-count 5 \
+	--objective-types voice_cmd \
+	--conv-dropout-probabilities 0.6 \
+	--fc-dropout-probabilities 0.6 \
+
+
+# Data setup for Google Cloud
 cloud-nicolingua-data:
 	mkdir ../nicolingua-data/
 	gsutil rsync -r gs://nicolingua ../nicolingua-data/	

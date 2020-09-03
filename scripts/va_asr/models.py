@@ -6,7 +6,8 @@ class VAASRCNN(nn.Module):
     def __init__(self,
             input_channels,
             conv_channels,
-            conv_pooling_type, 
+            conv_pooling_type,
+            conv_aggregate_type,
             conv_dropout_p, 
             fc_dropout_p, 
             voice_cmd_neuron_count, 
@@ -21,13 +22,22 @@ class VAASRCNN(nn.Module):
         
         if conv_pooling_type not in {"max", "avg"}:
             raise ValueError(f"Unknown Conv Pooling Type: {conv_pooling_type}")
+
+        if conv_aggregate_type not in {"max", "mean"}:
+            raise ValueError(f"Unknown Conv Aggregate Type: {conv_aggregate_type}")
+        
             
         conv_pooling_class_by_type = {
             "max": nn.MaxPool1d,
             "avg": nn.AvgPool1d,
         }
-        
         conv_pooling_class = conv_pooling_class_by_type[conv_pooling_type]
+
+        if conv_aggregate_type == "max":
+            self.conv_aggregate_fn = torch.max
+        else:
+            self.conv_aggregate_fn = torch.mean
+
 
         self.objective_type = objective_type
         
@@ -92,21 +102,21 @@ class VAASRCNN(nn.Module):
         x = self.drop2(x)
         x = self.pool2(x)
         
-        v1 = torch.mean(x, dim=2)
+        v1 = self.conv_aggregate_fn(x, dim=2)
         
         x = self.conv3(x)
         x = F.elu(x)
         x = self.drop3(x)
         x = self.pool3(x)
         
-        v2 = torch.mean(x, dim=2)
+        v2 = self.conv_aggregate_fn(x, dim=2)
         
         x = self.conv4(x)
         x = F.elu(x)
         x = self.drop4(x)
         x = self.pool4(x)
         
-        v3 = torch.mean(x, dim=2)
+        v3 = self.conv_aggregate_fn(x, dim=2)
         
         v = torch.cat((v1, v2, v3), axis=1)
         v = self.drop5(v)
@@ -127,7 +137,6 @@ class VAASRCNN1(VAASRCNN):
     def __init__(
             self,
             input_channels,
-            conv_pooling_type, 
             conv_dropout_p, 
             fc_dropout_p, 
             voice_cmd_neuron_count, 
@@ -138,7 +147,8 @@ class VAASRCNN1(VAASRCNN):
         super(VAASRCNN1, self).__init__(
             input_channels,
             [8, 8, 16, 32, 64],
-            conv_pooling_type, 
+            "avg", #conv_pooling_type,
+            "mean", # conv_aggregate_type
             conv_dropout_p, 
             fc_dropout_p, 
             voice_cmd_neuron_count, 
@@ -151,7 +161,6 @@ class VAASRCNN2(VAASRCNN):
     def __init__(
             self,
             input_channels,
-            conv_pooling_type, 
             conv_dropout_p, 
             fc_dropout_p, 
             voice_cmd_neuron_count, 
@@ -162,7 +171,8 @@ class VAASRCNN2(VAASRCNN):
         super(VAASRCNN2, self).__init__(
             input_channels,
             [8, 16, 32, 64, 128],
-            conv_pooling_type, 
+            "avg", #conv_pooling_type,
+            "mean", # conv_aggregate_type
             conv_dropout_p, 
             fc_dropout_p, 
             voice_cmd_neuron_count, 
@@ -174,7 +184,6 @@ class VAASRCNN3(VAASRCNN):
     def __init__(
             self,
             input_channels, 
-            conv_pooling_type, 
             conv_dropout_p, 
             fc_dropout_p, 
             voice_cmd_neuron_count, 
@@ -185,7 +194,55 @@ class VAASRCNN3(VAASRCNN):
         super(VAASRCNN3, self).__init__(
             input_channels,
             [16, 32, 64, 128, 256],
-            conv_pooling_type, 
+            "avg", #conv_pooling_type,
+            "mean", # conv_aggregate_type
+            conv_dropout_p, 
+            fc_dropout_p, 
+            voice_cmd_neuron_count, 
+            voice_cmd_lng_neuron_count,
+            objective_type
+        )
+
+class VAASRCNN3PoolAvgAggMax(VAASRCNN):
+    def __init__(
+            self,
+            input_channels, 
+            conv_dropout_p, 
+            fc_dropout_p, 
+            voice_cmd_neuron_count, 
+            voice_cmd_lng_neuron_count,
+            objective_type
+        ):
+
+        super(VAASRCNN3PoolAvgAggMax, self).__init__(
+            input_channels,
+            [16, 32, 64, 128, 256],
+            "avg", #conv_pooling_type,
+            "max", # conv_aggregate_type
+            conv_dropout_p, 
+            fc_dropout_p, 
+            voice_cmd_neuron_count, 
+            voice_cmd_lng_neuron_count,
+            objective_type
+        )
+
+
+class VAASRCNN3PoolMaxAggMax(VAASRCNN):
+    def __init__(
+            self,
+            input_channels, 
+            conv_dropout_p, 
+            fc_dropout_p, 
+            voice_cmd_neuron_count, 
+            voice_cmd_lng_neuron_count,
+            objective_type
+        ):
+
+        super(VAASRCNN3PoolMaxAggMax, self).__init__(
+            input_channels,
+            [16, 32, 64, 128, 256],
+            "max", #conv_pooling_type,
+            "max", # conv_aggregate_type
             conv_dropout_p, 
             fc_dropout_p, 
             voice_cmd_neuron_count, 

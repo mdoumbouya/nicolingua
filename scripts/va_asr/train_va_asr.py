@@ -42,7 +42,6 @@ def run_trials(args):
         model_class = getattr(models, args.model_name)
         model = model_class(
             input_channels = args.input_channels,
-            conv_pooling_type = 'avg', 
             conv_dropout_p = p['c_dropout_p'],
             fc_dropout_p = p['f_dropout_p'],
             voice_cmd_neuron_count = 105, 
@@ -268,6 +267,17 @@ def train_on_fold(model, fold_id, feature_name, objective_type, batch_size, epoc
 
 
 def parse_arguments():
+    # Register Known model names
+    KNOWN_MODEL_NAMES = [
+        "VAASRCNN1", 
+        "VAASRCNN2", 
+        "VAASRCNN3", 
+        "VASRSpectrogramCNN", 
+        "VAASRCNN3PoolAvgAggMax",
+        "VAASRCNN3PoolMaxAggMax",
+    ]
+
+
     # Define default parameter values
     DEFAULT_FEATURE_NAMES = [
         "wav2vec_features-c", 
@@ -284,7 +294,7 @@ def parse_arguments():
     parser = ArgumentParser()
     parser.add_argument("--data-dir", required=True)
     parser.add_argument("--output-dir", required=True)
-    parser.add_argument("--model-name", required=True, choices=["VAASRCNN1", "VAASRCNN2", "VAASRCNN3", "VASRSpectrogramCNN"])
+    parser.add_argument("--model-name", required=True, choices=KNOWN_MODEL_NAMES)
     parser.add_argument("--gpu-id", type=int, default=-1)
     parser.add_argument("--fold-count", type=int, default=10)
     parser.add_argument("--feature-names", nargs="*", default=DEFAULT_FEATURE_NAMES)
