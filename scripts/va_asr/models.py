@@ -2,6 +2,14 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+
+def mean_aggregation(x, dim):
+    return torch.mean(x, dim)
+
+def max_aggregation(x, dim):
+    v, i = torch.max(x, dim)
+    return v
+
 class VAASRCNN(nn.Module):
     def __init__(self,
             input_channels,
@@ -34,9 +42,9 @@ class VAASRCNN(nn.Module):
         conv_pooling_class = conv_pooling_class_by_type[conv_pooling_type]
 
         if conv_aggregate_type == "max":
-            self.conv_aggregate_fn = torch.max
+            self.conv_aggregate_fn = mean_aggregation
         else:
-            self.conv_aggregate_fn = torch.mean
+            self.conv_aggregate_fn = max_aggregation
 
 
         self.objective_type = objective_type

@@ -12,6 +12,8 @@ from functools import partial
 from argparse import ArgumentParser
 from pydub.effects import normalize
 import csv
+import re
+
 
 
 
@@ -35,8 +37,8 @@ class SamplingLogger:
 def sample_file(file_path, args):
     try:
         sound = pydub.AudioSegment.from_file(file_path)
-        args.sampling_ratio
-        args.max_sample_length_ms
+        # args.sampling_ratio
+        # args.max_sample_length_ms
 
         l = len(sound) / 1000 / 60
         sample_count = math.ceil(len(sound) * args.sampling_ratio / args.max_sample_length_ms)
@@ -72,14 +74,27 @@ def sample_file(file_path, args):
 
         return sampling_report
     except:
-        logging.error(f"An error occured while sampling {file_path}")
+        logging.exception(f"An error occured while sampling {file_path}")
         return []
 
 
 def main(args):
+    random.seed(args.random_seed)
+
     output_path = Path(args.output_dir)
     if not output_path.exists():
         output_path.mkdir(parents=True)
+
+
+    # compile ignore keyword list
+    ignored_path_pattern = None
+    if args.ignore_keyword and len(args.ignore_keyword)>0:
+        ignored_path_pattern = re.compile(
+            "|".join(args.ignore_keyword),
+            flags = re.I # ignore case
+        )
+
+    logging.info(f"Using file ignore pattern: {ignored_path_pattern}")
 
     # collect input files to sample
     input_files = []
@@ -87,8 +102,17 @@ def main(args):
         for file_name in files:
             file_path = os.path.join(path, file_name)
             file_ext = file_path.split('.')[-1].lower()
-            if file_ext in {'mp3', 'wav'}:
-                input_files.append(file_path)
+            
+            if file_ext not in {'mp3', 'wav'}:
+                continue
+            
+            if ignored_path_pattern:
+                ignored_keywords = ignored_path_pattern.findall(path)
+                if len(ignored_keywords)>0:
+                    logging.info(f"ignoring {file_path} because it contains the keywords: {', '.join(ignored_keywords)}")
+                    continue
+                
+            input_files.append(file_path)
 
     # use multiprocessing to sample the files in parallel 
     with SamplingLogger(Path(args.output_dir) / "samples.csv") as sample_logger:
@@ -111,11 +135,14 @@ def parse_arguments():
     parser = ArgumentParser()
     parser.add_argument("input_dir")
     parser.add_argument("output_dir")
-    parser.add_argument("--sampling-ratio", default=0.1)
+    parser.add_argument("--sampling-ratio", type=float, default=0.1)
     parser.add_argument("--max-sample-length-ms", default=30000)
     parser.add_argument("--frame-rate", default=16000)
     parser.add_argument("--channels", default=1)
     parser.add_argument("--worker-count", default=16, type=int)
+    parser.add_argument("--ignore-keyword", nargs="*", help="Paths containing this keyword in any case will be ignored")
+    parser.add_argument("--random-seed", default=42, type=int)
+
     return parser.parse_args()
 
 

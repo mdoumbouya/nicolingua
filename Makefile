@@ -3,7 +3,8 @@
 # VA_ASR_DIR = /media/xtrem/data/experiments/nicolingua-0002-va-asr/datasets/gn_va_asr_dataset_2020-08-26_01
 
 # export CUDA_VISIBLE_DEVICES=0,1
-include default.conf
+# include default.conf
+include default_wav2vec_v2.conf
 
 .PHONY: samples features-c features-z clean-samples clean-features-c clean-features-z count-files
 
@@ -44,7 +45,7 @@ count-files:
 	echo "features-c `ls ${BUILD_DIR}/wav2vec_features-c/ | wc -l`"
 
 $(BUILD_DIR)/audio_samples:
-	python scripts/sample_audio_segments.py $(DATA_DIR) $(BUILD_DIR)/audio_samples --worker-count 32
+	python scripts/sample_audio_segments.py $(DATA_DIR) $(BUILD_DIR)/audio_samples --worker-count 32 ${SAMPLE_AUDIO_SEGMENTS_EXTRA_PARAMS}
 
 
 $(BUILD_DIR)/audio_samples_annotation_space:
@@ -524,7 +525,7 @@ run-va-asr-experiments-105-cnn3-voice_simult_obj_dropout-0.6:
 
 
 
-# Experiments 106. Cong Pooling and Aggregate Pooling variants
+# Experiments 106. Conv Pooling and Aggregate Pooling variants
 run-va-asr-experiments-106-cnn3-pool-avg-aggmax-dropout-0.6:
 	python scripts/va_asr/train_va_asr.py \
 	--model-name VAASRCNN3PoolAvgAggMax \
