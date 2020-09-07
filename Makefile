@@ -4,7 +4,7 @@
 
 # export CUDA_VISIBLE_DEVICES=0,1
 # include default.conf
-include default_wav2vec_v2.conf
+include datasets_refresh_2.conf
 
 .PHONY: samples features-c features-z clean-samples clean-features-c clean-features-z count-files
 
@@ -13,19 +13,30 @@ samples: $(BUILD_DIR)/audio_samples
 samples-annotation-space: $(BUILD_DIR)/audio_samples_annotation_space
 
 features-z: ${BUILD_DIR}/wav2vec_features-z
-retrained-features-z: ${BUILD_DIR}/retrained-wav2vec_features-z
-
 features-c: ${BUILD_DIR}/wav2vec_features-c
+retrained-features-z: ${BUILD_DIR}/retrained-wav2vec_features-z
 retrained-features-c: ${BUILD_DIR}/retrained-wav2vec_features-c
 
+test-features-z: ${BUILD_DIR}/test/wav2vec_features-z
+test-features-c: ${BUILD_DIR}/test/wav2vec_features-c
+test-retrained-features-z: ${BUILD_DIR}/test/retrained-wav2vec_features-z
+test-retrained-features-c: ${BUILD_DIR}/test/retrained-wav2vec_features-c
+test-counts:
+	echo "wav2vec_features-z: `ls ${BUILD_DIR}/test/wav2vec_features-z | wc -l`"
+	echo "wav2vec_features-c: `ls ${BUILD_DIR}/test/wav2vec_features-c | wc -l`"
+	echo "retrained-wav2vec_features-z: `ls ${BUILD_DIR}/test/retrained-wav2vec_features-z | wc -l`"
+	echo "retrained-wav2vec_features-c: `ls ${BUILD_DIR}/test/retrained-wav2vec_features-c | wc -l`"
+	
 
-features-vq: ${BUILD_DIR}/wav2vec-vq_features
-retrained-features-vq: ${BUILD_DIR}/retrained-wav2vec-vq_features
+
+# features-vq: ${BUILD_DIR}/wav2vec-vq_features
+# retrained-features-vq: ${BUILD_DIR}/retrained-wav2vec-vq_features
 
 
-clean-samples:
-	rm -rf $(BUILD_DIR)/audio_samples
+#clean-samples:
+#	rm -rf $(BUILD_DIR)/audio_samples
 
+# Radio Corpus
 clean-features-c: 
 	rm -rf ${BUILD_DIR}/wav2vec_features-c
 
@@ -35,9 +46,23 @@ clean-features-z:
 clean-retrained-features-c: 
 	rm -rf ${BUILD_DIR}/retrained-wav2vec_features-c
 
-
 clean-retrained-features-z: 
 	rm -rf ${BUILD_DIR}/retrained-wav2vec_features-z
+
+
+# Radio Corpus Test set
+clean-test-features-c: 
+	rm -rf ${BUILD_DIR}/test/wav2vec_features-c
+
+clean-test-features-z: 
+	rm -rf ${BUILD_DIR}/test/wav2vec_features-z
+
+clean-test-retrained-features-c: 
+	rm -rf ${BUILD_DIR}/test/retrained-wav2vec_features-c
+
+clean-test-retrained-features-z: 
+	rm -rf ${BUILD_DIR}/test/retrained-wav2vec_features-z
+
 
 count-files:
 	echo "samples: `ls $(BUILD_DIR)/audio_samples/ | wc -l`"
@@ -69,14 +94,33 @@ ${BUILD_DIR}/wav2vec_features-z:
 		--split "" \
 		--use-feat
 
-# original features - wav2vec vq
-${BUILD_DIR}/wav2vec-vq_features:
-	python ../fairseq/examples/wav2vec/vq-wav2vec_featurize.py \
-		--data-dir $(BUILD_DIR)/audio_samples \
-		--output-dir ${BUILD_DIR}/wav2vec-vq_features \
-		--checkpoint /media/xtrem/code/lib/models/acoustic_models/wav2vec/vq-wav2vec.pt \
+
+# original features - wav2vec - test set
+${BUILD_DIR}/test/wav2vec_features-c:
+	python ../fairseq/examples/wav2vec/wav2vec_featurize.py \
+		--input $(BUILD_DIR)/test/audio_samples \
+		--output ${BUILD_DIR}/test/wav2vec_features-c \
+		--model $(WAV2VEC_BASELINE_CHECKPOINT) \
+		--gpu 0 \
+		--split ""
+
+${BUILD_DIR}/test/wav2vec_features-z:
+	python ../fairseq/examples/wav2vec/wav2vec_featurize.py \
+		--input $(BUILD_DIR)/test/audio_samples \
+		--output ${BUILD_DIR}/test/wav2vec_features-z \
+		--model $(WAV2VEC_BASELINE_CHECKPOINT) \
+		--gpu 1 \
 		--split "" \
-		--extension wav
+		--use-feat
+
+# original features - wav2vec vq
+#${BUILD_DIR}/wav2vec-vq_features:
+#	python ../fairseq/examples/wav2vec/vq-wav2vec_featurize.py \
+#		--data-dir $(BUILD_DIR)/audio_samples \
+#		--output-dir ${BUILD_DIR}/wav2vec-vq_features \
+#		--checkpoint /media/xtrem/code/lib/models/acoustic_models/wav2vec/vq-wav2vec.pt \
+#		--split "" \
+#		--extension wav
 
 
 
@@ -99,15 +143,33 @@ ${BUILD_DIR}/retrained-wav2vec_features-z:
 		--split "" \
 		--use-feat
 
+# retrained features wav2vec - test set
+${BUILD_DIR}/test/retrained-wav2vec_features-c:
+	python ../fairseq/examples/wav2vec/wav2vec_featurize.py \
+		--input $(BUILD_DIR)/test/audio_samples \
+		--output ${BUILD_DIR}/test/retrained-wav2vec_features-c \
+		--model $(BUILD_DIR)/wav2vec-training-exp-01/checkpoints/checkpoint_best.pt \
+		--gpu 0 \
+		--split ""
+
+${BUILD_DIR}/test/retrained-wav2vec_features-z:
+	python ../fairseq/examples/wav2vec/wav2vec_featurize.py \
+		--input $(BUILD_DIR)/test/audio_samples \
+		--output ${BUILD_DIR}/test/retrained-wav2vec_features-z \
+		--model $(BUILD_DIR)/wav2vec-training-exp-01/checkpoints/checkpoint_best.pt \
+		--gpu 1 \
+		--split "" \
+		--use-feat
+
 
 # retrained features - wav2vec vq
-${BUILD_DIR}/retrained-wav2vec-vq_features:
-	python ../fairseq/examples/wav2vec/vq-wav2vec_featurize.py \
-		--data-dir $(BUILD_DIR)/audio_samples \
-		--output-dir ${BUILD_DIR}/retrained-wav2vec-vq_features \
-		--checkpoint $(BUILD_DIR)/wav2vec-training-exp-01/checkpoints-vq/checkpoint_best.pt \
-		--split "" \
-		--extension wav
+#${BUILD_DIR}/retrained-wav2vec-vq_features:
+#	python ../fairseq/examples/wav2vec/vq-wav2vec_featurize.py \
+#		--data-dir $(BUILD_DIR)/audio_samples \
+#		--output-dir ${BUILD_DIR}/retrained-wav2vec-vq_features \
+#		--checkpoint $(BUILD_DIR)/wav2vec-training-exp-01/checkpoints-vq/checkpoint_best.pt \
+#		--split "" \
+#		--extension wav
 
 # Keywords associated with mostly musical content: "MUSIQUE" "FOLKLORES" "RETRO" "PRETETE"
 # cat /media/xtrem/data/tmp-waves/samples.csv |grep -v -e "MUSIQUE" -e "FOLKLORES" -e "RETRO" -e "PRETETE" | shuf | head | awk  '{FS=","; print $2}'
@@ -244,14 +306,12 @@ start-tag-editor:
 	cd html && python3.6 -m http.server
 
 
-extract-id3v2-metadata:
+test-samples:
 	python scripts/extract_annotations.py \
-		/Users/moussadoumbouya/git/datasets/language-id-annotation/audio_samples/ \
-		/Users/moussadoumbouya/git/datasets/language-id-annotation/metadata.csv
-
-	cat /Users/moussadoumbouya/git/datasets/language-id-annotation/metadata.csv
-
-	cat /Users/moussadoumbouya/git/datasets/language-id-annotation/metadata.csv | wc -l
+		${TEST_DATA_DIR} \
+		${BUILD_DIR}/test \
+		--output-audio-files
+		
 
 copy-unknown-lg:
 	python scripts/copy_files_by_annotation.py \
@@ -311,11 +371,18 @@ cluster-with-retrained-wav2vec:
 
 va-asr-segments: $(VA_ASR_DIR)/annotated_segments/metadata.csv
 
+va-asr-features-z: ${VA_ASR_DIR}/wav2vec_features-z
 va-asr-features-c: ${VA_ASR_DIR}/wav2vec_features-c
+
+va-asr-retrained-features-z: ${VA_ASR_DIR}/retrained-wav2vec_features-z
 va-asr-retrained-features-c: ${VA_ASR_DIR}/retrained-wav2vec_features-c
 
-va-asr-features-z: ${VA_ASR_DIR}/wav2vec_features-z
-va-asr-retrained-features-z: ${VA_ASR_DIR}/retrained-wav2vec_features-z
+va-asr-counts:
+	echo "va-asr-features-z: `ls ${VA_ASR_DIR}/wav2vec_features-z | wc -l`"
+	echo "va-asr-features-c: `ls ${VA_ASR_DIR}/wav2vec_features-c | wc -l`"
+	echo "va-asr-retrained-features-z: `ls ${VA_ASR_DIR}/retrained-wav2vec_features-z | wc -l`"
+	echo "va-asr-retrained-features-c: `ls ${VA_ASR_DIR}/retrained-wav2vec_features-c | wc -l`"
+
 
 
 clean-va-asr-segments: 
@@ -549,6 +616,40 @@ run-va-asr-experiments-106-cnn3-pool-max-aggmax-dropout-0.6:
 	--objective-types voice_cmd \
 	--conv-dropout-probabilities 0.6 \
 	--fc-dropout-probabilities 0.6 \
+
+
+
+##### Experiments with datasets and wawav2vec refresh2
+# 20x lang id
+# E209 (see jupyter notebookx)
+
+# 30x ASR Experiments
+run-va-asr-experiments-302-cnn3-dropout-0.6:
+	python scripts/va_asr/train_va_asr.py \
+	--model-name VAASRCNN3 \
+	--data-dir $(VA_ASR_DIR) \
+	--output-dir notebooks/E302/results_302 \
+	--epochs 1000 \
+	--gpu-id 1 \
+	--fold-count 5 \
+	--objective-types voice_cmd \
+	--conv-dropout-probabilities 0.6 \
+	--fc-dropout-probabilities 0.6 \
+	--max-sequence-length 300 \
+
+
+run-va-asr-experiments-306-cnn3-pool-avg-aggmax-dropout-0.6:
+	python scripts/va_asr/train_va_asr.py \
+	--model-name VAASRCNN3PoolAvgAggMax \
+	--data-dir $(VA_ASR_DIR) \
+	--output-dir notebooks/E306/results_306 \
+	--epochs 1000 \
+	--gpu-id 0 \
+	--fold-count 5 \
+	--objective-types voice_cmd \
+	--conv-dropout-probabilities 0.6 \
+	--fc-dropout-probabilities 0.6 \
+	--max-sequence-length 300 \
 
 
 # Data setup for Google Cloud
