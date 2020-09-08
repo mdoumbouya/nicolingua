@@ -651,6 +651,38 @@ run-va-asr-experiments-306-cnn3-pool-avg-aggmax-dropout-0.6:
 	--fc-dropout-probabilities 0.6 \
 	--max-sequence-length 300 \
 
+run-va-asr-experiments-306-cnn3-pool-avg-aggmax-spectrogram-dropout-0.6:
+	python scripts/va_asr/train_va_asr.py \
+	--model-name VAASRCNN3PoolAvgAggMax \
+	--data-dir $(VA_ASR_DIR) \
+	--output-dir notebooks/E306/results_306 \
+	--epochs 1000 \
+	--gpu-id 1 \
+	--fold-count 5 \
+	--objective-types voice_cmd \
+	--conv-dropout-probabilities 0.6 \
+	--fc-dropout-probabilities 0.6 \
+	--max-sequence-length 300 \
+	--input-channels 128 \
+	--feature-names mel_spectrogram \
+
+
+# Experiemnts E104: Remove french and first names. Only keep maninka, pular, susu
+run-va-asr-experiments-307-cnn3-pool-avg-aggmax-guinean-only-dropout-0.6:
+	python scripts/va_asr/train_va_asr.py \
+	--model-name VAASRCNN3PoolAvgAggMax \
+	--data-dir $(VA_ASR_DIR) \
+	--output-dir notebooks/E307/results_307 \
+	--epochs 1000 \
+	--gpu-id 1 \
+	--fold-count 5 \
+	--objective-types voice_cmd \
+	--selected-languages maninka pular susu \
+	--conv-dropout-probabilities 0.6 \
+	--fc-dropout-probabilities 0.6 \
+	--max-sequence-length 300 \
+
+
 
 # Data setup for Google Cloud
 cloud-nicolingua-data:
