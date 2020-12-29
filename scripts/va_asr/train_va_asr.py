@@ -26,7 +26,6 @@ def main(args):
     run_trials(args)
     
 
-
 def run_trials(args):
     device = get_torch_device(args)
     trial_params = generate_trial_params(args)

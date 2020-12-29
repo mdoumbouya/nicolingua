@@ -20,11 +20,17 @@ function stoppedRecording(e){
         processData: false,
 
         success: function(response) {
+            response = JSON.parse(response);
             console.log(response);
+            console.log($("#textFromSpeech"));
+            console.log(response[0]);
+            console.log(response[0]['c']);
 
             $("#textFromSpeech").text(
-                response[0]['c'] + response[0]['p.']
-            )
+                response[0]['c']
+            );
+
+            console.log("Done displaying result");
         },
 
         error: function() {
@@ -70,12 +76,12 @@ function onMediaeviceSuccess(stream){
 
     var el = document.getElementById("btnParler");
     el.addEventListener("touchstart", handleStartTalking, false);
-    el.addEventListener("mousedown", handleStartTalking, false);
+    // el.addEventListener("mousedown", handleStartTalking, false);
 
     el.addEventListener("touchend", handleEndTalking, false);
     el.addEventListener("touchcancel", handleEndTalking, false);
     el.addEventListener("touchmove", handleEndTalking, false);
-    el.addEventListener("mouseup", handleEndTalking, false);
+    // el.addEventListener("mouseup", handleEndTalking, false);
 
     mediaRecorder.onstop = stoppedRecording;
     mediaRecorder.ondataavailable = recordingDataAvailable;
