@@ -54,8 +54,7 @@ def run_trials(args):
             fold_id = p['fold_id'], 
             feature_name = p['feature'], 
             objective_type = p['obj'], 
-            batch_size = args.batch_size, 
-            epochs = args.epochs
+            args=args
         )
 
         # results for only one fold
@@ -198,12 +197,12 @@ def test(model, criterion, objective_type, loader, bias_category_labels):
     return n, average_loss, acc, acc_by_bais_category, acc_lng, acc_by_bais_category_lng
       
         
-def train_on_fold(model, fold_id, feature_name, objective_type, batch_size, epochs):
+def train_on_fold(model, fold_id, feature_name, objective_type, args):
     torch.manual_seed(0)
     device = get_torch_device(args)
     results = {}
-    
-    train_loader, test_loader, train_bias_category_labels, test_bias_category_labels = get_loaders_for_fold(fold_id, feature_name, batch_size, args)
+
+    train_loader, test_loader, train_bias_category_labels, test_bias_category_labels = get_loaders_for_fold(fold_id, feature_name, args.batch_size, args)
 
     logging.info("Model Summary :\n" + summary(model, torch.zeros((10, args.max_sequence_length, model.input_channels)).to(device), show_input=False))
     logging.info(f"train_n: {len(train_loader.dataset)}")
@@ -212,7 +211,7 @@ def train_on_fold(model, fold_id, feature_name, objective_type, batch_size, epoc
     optimizer = optim.Adam(model.parameters(), lr=args.learning_rate)
     criterion = nn.CrossEntropyLoss(reduction='sum')
 
-    for epoch in range(1, epochs+1):
+    for epoch in range(1, args.epochs+1):
         
         # train on training set
         train(model, optimizer, criterion, objective_type, train_loader)
@@ -224,6 +223,10 @@ def train_on_fold(model, fold_id, feature_name, objective_type, batch_size, epoc
         # test on test set
         test_n, test_average_loss, test_acc, test_acc_by_bais_category, test_acc_lng, test_acc_by_bais_category_lng = \
             test(model, criterion, objective_type, test_loader, test_bias_category_labels)
+
+        # persist
+        if args.persistence_interval>0 and epoch % args.persistence_interval == 0:
+            models.save_model(model, optimizer, fold_id, feature_name, epoch, args)
         
 
         if epoch%10==0:
@@ -308,6 +311,7 @@ def parse_arguments():
     parser.add_argument("--max-sequence-length", type=int, default=200)
     parser.add_argument("--input-channels", type=int, default=512)
     parser.add_argument("--selected-languages", nargs="*", default=DEFAULT_SELECTED_LANGUAGES)
+    parser.add_argument("--persistence-interval", type=int, default=-1)
 
     # Parse and return args
     args =  parser.parse_args()

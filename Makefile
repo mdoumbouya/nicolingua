@@ -684,8 +684,52 @@ run-va-asr-experiments-307-cnn3-pool-avg-aggmax-guinean-only-dropout-0.6:
 
 
 
+
+# Experiments E400: Demo ASR Prototype Models
+run-va-asr-experiments-400-demo-prototype:
+	python scripts/va_asr/train_va_asr.py \
+	--model-name VAASRCNN3PoolMaxAggMax \
+	--data-dir $(VA_ASR_DIR) \
+	--output-dir notebooks/E400/results_400 \
+	--epochs 1000 \
+	--gpu-id 1 \
+	--fold-count 1 \
+	--train-percent 0.8 \
+	--objective-types voice_cmd \
+	--conv-dropout-probabilities 0.6 \
+	--fc-dropout-probabilities 0.6 \
+	--max-sequence-length 300 \
+	--input-channels 512 \
+	--feature-names retrained-wav2vec_features-c retrained-wav2vec_features-z \
+	--persistence-interval 10 \
+
+run-va-asr-experiments-401-demo-prototype:
+	python scripts/va_asr/train_va_asr.py \
+	--model-name VAASRCNN3PoolAvgAggMax \
+	--data-dir $(VA_ASR_DIR) \
+	--output-dir notebooks/E400/results_401 \
+	--epochs 1000 \
+	--gpu-id 1 \
+	--fold-count 1 \
+	--train-percent 0.8 \
+	--objective-types voice_cmd \
+	--conv-dropout-probabilities 0.6 \
+	--fc-dropout-probabilities 0.6 \
+	--max-sequence-length 300 \
+	--input-channels 512 \
+	--feature-names retrained-wav2vec_features-c retrained-wav2vec_features-z \
+	--persistence-interval 10 \
+
+
 # Data setup for Google Cloud
 cloud-nicolingua-data:
 	mkdir ../nicolingua-data/
 	gsutil rsync -r gs://nicolingua ../nicolingua-data/	
 	tar -xf ../nicolingua-data/experiments/nicolingua-0002-va-asr/datasets/gn_va_asr_dataset_2020-08-26_01.tar.gz --directory ../nicolingua-data/experiments/nicolingua-0002-va-asr/datasets/
+
+
+
+run-web-demo:
+	#export FLASK_APP=webdemo.va_asr_demo_web.py  && flask run --host 0.0.0.0 --cert=certificates/cert.pem --key=certificates/key.pem
+	gunicorn webdemo.va_asr_demo_web:app --bind 0.0.0.0 --certfile=certificates/cert.pem --keyfile=certificates/key.pem --reload
+	

@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
+from pathlib import Path
 
 def mean_aggregation(x, dim):
     return torch.mean(x, dim)
@@ -27,6 +27,11 @@ class VAASRCNN(nn.Module):
 
 
         self.input_channels = input_channels
+        self.conv_dropout_p = conv_dropout_p
+        self.fc_dropout_p = fc_dropout_p
+        self.voice_cmd_neuron_count = voice_cmd_neuron_count
+        self.voice_cmd_lng_neuron_count = voice_cmd_lng_neuron_count
+        self.objective_type = objective_type
         
         if conv_pooling_type not in {"max", "avg"}:
             raise ValueError(f"Unknown Conv Pooling Type: {conv_pooling_type}")
@@ -46,9 +51,6 @@ class VAASRCNN(nn.Module):
         else:
             self.conv_aggregate_fn = max_aggregation
 
-
-        self.objective_type = objective_type
-        
         self.conv0 = nn.Conv1d(
             in_channels=input_channels, 
             out_channels=conv_channels[0], 
@@ -257,3 +259,54 @@ class VAASRCNN3PoolMaxAggMax(VAASRCNN):
             voice_cmd_lng_neuron_count,
             objective_type
         )
+
+
+def save_model(model, optimizer, fold_id, feature_name, epoch, args):
+    model_name =  model.__class__.__name__
+    
+    save_dir = Path(f"{args.output_dir}/checkpoints/{model_name}/{feature_name}_{fold_id}_checkpoints")
+    save_path = save_dir / f"{epoch:04}.pt"
+    
+    save_dir.mkdir(parents=True, exist_ok=True)
+    
+    torch.save(
+        {
+            'epoch': epoch,
+            'model_state_dict': model.state_dict(),
+            'optimizer_state_dict': optimizer.state_dict(),
+            'fold_id': fold_id,
+            'feature_name': feature_name,
+            'model_name':  model_name,
+            'input_channels': model.input_channels, 
+            'conv_dropout_p': model.conv_dropout_p, 
+            'fc_dropout_p': model.fc_dropout_p, 
+            'voice_cmd_neuron_count': model.voice_cmd_neuron_count, 
+            'voice_cmd_lng_neuron_count': model.voice_cmd_lng_neuron_count,
+            'objective_type': model.objective_type
+        }, 
+        save_path
+    )
+
+
+def load_model(checkpoint_path):
+    state_dict = torch.load(checkpoint_path)
+    asrmodel = globals()[state_dict['model_name']](
+        input_channels = state_dict['input_channels'], 
+        conv_dropout_p = state_dict['conv_dropout_p'], 
+        fc_dropout_p = state_dict['fc_dropout_p'], 
+        voice_cmd_neuron_count = state_dict['voice_cmd_neuron_count'], 
+        voice_cmd_lng_neuron_count = state_dict['voice_cmd_lng_neuron_count'], 
+        objective_type = state_dict['objective_type'], 
+    )
+
+    asrmodel.load_state_dict(state_dict['model_state_dict'])
+
+    #asrmodel = getattr(this, state_dict['model_name'])(
+    #    input_channels = state_dict['input_channels'], 
+    #    conv_dropout_p = state_dict['conv_dropout_p'], 
+    #    fc_dropout_p = state_dict['fc_dropout_p'], 
+    #    voice_cmd_neuron_count = state_dict['voice_cmd_neuron_count'], 
+    #    voice_cmd_lng_neuron_count = state_dict['voice_cmd_lng_neuron_count'], 
+    #    objective_type = state_dict['objective_type'], 
+    #)
+    return asrmodel

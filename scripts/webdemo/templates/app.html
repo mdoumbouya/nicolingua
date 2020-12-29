@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="/static/bootstrap-5.0.0-beta1-dist//css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <title>West African Virtual Assistant</title>
+  </head>
+  <body>
+    <h1>Assistant Virtuel</h1>
+
+    <div class="container-fluid">
+
+        <div class="col-12" style="border: solid 1px blue;">
+            <h1 id="textFromSpeech"></h1>
+        </div>
+
+
+        <div class="col-12" style="border: solid 1px red;" class="position-relative">
+            <button 
+                id="btnParler"
+                type="button" 
+                class="btn btn-success rounded-pill position-absolute top-50 start-50 translate-middle"
+                style="width: 10rem; height:10rem;">
+                <h1>🎤</h1>
+            </button>
+        </div>
+    </div>
+
+    <script src="/static/bootstrap-5.0.0-beta1-dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script src="/static/jquery-3.5.1.min.js"></script>
+    <script src="/static/asr.js"></script>
+  </body>
+</html>
