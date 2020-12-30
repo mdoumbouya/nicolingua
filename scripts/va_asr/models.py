@@ -289,7 +289,7 @@ def save_model(model, optimizer, fold_id, feature_name, epoch, args):
 
 
 def load_model(checkpoint_path):
-    state_dict = torch.load(checkpoint_path)
+    state_dict = torch.load(checkpoint_path, map_location=torch.device('cpu'))
     asrmodel = globals()[state_dict['model_name']](
         input_channels = state_dict['input_channels'], 
         conv_dropout_p = state_dict['conv_dropout_p'], 
