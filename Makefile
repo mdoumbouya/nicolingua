@@ -707,7 +707,7 @@ run-va-asr-experiments-401-demo-prototype:
 	python scripts/va_asr/train_va_asr.py \
 	--model-name VAASRCNN3PoolAvgAggMax \
 	--data-dir $(VA_ASR_DIR) \
-	--output-dir notebooks/E400/results_401 \
+	--output-dir notebooks/E401/results_401 \
 	--epochs 1000 \
 	--gpu-id 1 \
 	--fold-count 1 \
