@@ -16,7 +16,18 @@
     <div class="container-fluid">
 
         <div class="col-12">
-            <h1 id="textFromSpeech" class="text-center">test</h1>
+            <div id="resultLoading" class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+
+            <div id="resultSuccess" class="alert alert-success" role="alert">
+                <h1 id="textFromSpeech" class="text-center">Appuiyez sur le boutton pour parler</h1>
+            </div>
+
+            <div id="resultFailure" class="alert alert-danger" role="alert">
+              Une erreur s'est produite. Essayez encore.
+            </div>
+            
         </div>
 
 

@@ -12,6 +12,10 @@ function stoppedRecording(e){
     var formdata = new FormData();
     formdata.append('audiodata', blob);
 
+    $("#resultLoading").show();
+    $("#resultFailure").hide();
+    $("#resultSuccess").hide();
+
     $.ajax({
         url : "/asr",
         type: "POST",
@@ -30,10 +34,16 @@ function stoppedRecording(e){
                 response[0]['c']
             );
 
+            $("#resultLoading").hide();
+            $("#resultFailure").hide();
+            $("#resultSuccess").show();
             console.log("Done displaying result");
         },
 
         error: function() {
+            $("#resultLoading").hide();
+            $("#resultFailure").show();
+            $("#resultSuccess").hide();
             console.log("Ajax error");
         }
     });
@@ -48,7 +58,6 @@ function onMediaeviceSuccess(stream){
     const mediaRecorder = new MediaRecorder(stream);
 
     function handleStartTalking(evt){
-        //evt.preventDefault();
         console.log("handleStartTalking.");
         var el = document.getElementById("btnParler");
         el.classList.remove("btn-success");
@@ -57,12 +66,13 @@ function onMediaeviceSuccess(stream){
         mediaRecorder.start();
         console.log(mediaRecorder.state);
         console.log("recorder started");
+
+        // evt.preventDefault();
         
     }
     
     
     function handleEndTalking(evt){
-        //evt.preventDefault();
         console.log("handleEndTalking.");
         var el = document.getElementById("btnParler");
         el.classList.remove("btn-danger");
@@ -71,17 +81,28 @@ function onMediaeviceSuccess(stream){
         mediaRecorder.stop();
         console.log(mediaRecorder.state);
         console.log("recorder stopped");
+
+        // evt.preventDefault();
     }
 
 
     var el = document.getElementById("btnParler");
-    el.addEventListener("touchstart", handleStartTalking, false);
-    //el.addEventListener("mousedown", handleStartTalking, false);
 
-    el.addEventListener("touchend", handleEndTalking, false);
-    el.addEventListener("touchcancel", handleEndTalking, false);
-    el.addEventListener("touchmove", handleEndTalking, false);
-    //el.addEventListener("mouseup", handleEndTalking, false);
+    if('ontouchstart' in window){
+        el.addEventListener("touchstart", handleStartTalking, false);
+        
+    
+        el.addEventListener("touchend", handleEndTalking, false);
+        el.addEventListener("touchcancel", handleEndTalking, false);
+        el.addEventListener("touchmove", handleEndTalking, false);
+        
+    }
+    else
+    {
+        el.addEventListener("mousedown", handleStartTalking, false);
+        el.addEventListener("mouseup", handleEndTalking, false);
+    }
+    
 
     mediaRecorder.onstop = stoppedRecording;
     mediaRecorder.ondataavailable = recordingDataAvailable;
@@ -89,6 +110,10 @@ function onMediaeviceSuccess(stream){
 
 
 function startup() {
+    $("#resultLoading").hide();
+    $("#resultFailure").hide();
+    $("#resultSuccess").show();
+
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         console.log('getUserMedia supported.');
         navigator.mediaDevices.getUserMedia (
