@@ -98,8 +98,9 @@ tensorboardX==2.1
 terminado==0.8.3
 testpath==0.4.4
 threadpoolctl==2.1.0
-torch @ file:///media/xtrem/code/lib/python/torch-1.5.1%2Bcu92-cp36-cp36m-linux_x86_64.whl
-torchvision @ file:///media/xtrem/code/lib/python/torchvision-0.6.1%2Bcu92-cp36-cp36m-linux_x86_64.whl
+torch==1.5.1
+torchvision==0.6.1
+torchaudio=0.5.1
 tornado==6.0.4
 tqdm==4.47.0
 traitlets==4.3.3
