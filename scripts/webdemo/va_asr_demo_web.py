@@ -28,7 +28,7 @@ app = Flask(__name__)
 
 wav2vec = inference_utils.load_wav2vec(config.WAV2VEC_CHECKPOINT_PATH)
 vaasr_model = inference_utils.load_vaasr_model(config.VAASR_CHECKPOINT_PATH)
-class_dict = data.get_asr_class_dict()
+class_dict = data.get_asr_class_dict_fr()
 
 
 @app.route("/")
@@ -57,5 +57,3 @@ def asr():
         )
 
     return json.dumps(results)
-
-
