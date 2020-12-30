@@ -730,6 +730,7 @@ cloud-nicolingua-data:
 
 
 create-ssl-cert:
+	mkdir certificates
 	openssl req -nodes -x509 -newkey rsa:4096 -keyout certificates/key.pem -out certificates/cert.pem -days 365
 
 run-web-demo:
@@ -738,23 +739,29 @@ run-web-demo:
 	
 
 
-setup-gcloud-machine:
-	sudo apt-get update
-	sudo apt-get install python3.6
-	sudo apt-get install python3.6-dev
-	sudo apt-get install python3.6-venv
-	sudo apt-get install build-essential
-	sudo apt-get install libsndfile1
-	sudo apt install ffmpeg
+setup-gcloud-machine: create-ssl-cert
+	sudo apt-get -y update
+	sudo apt-get -y install python3.6
+	sudo apt-get -y install python3-venv
+	sudo apt-get -y install python3.6-dev
+	sudo apt-get -y install python3.6-venv
+	sudo apt-get -y install build-essential
+	sudo apt-get -y install libsndfile1
+	sudo apt-get -y install ffmpeg
 	gcloud init --project piechlab
 	mkdir ../acousticmodels   
 	gsutil cp gs://nicolingua/experiments/nicolingua-0003-wa-wav2vec/wav2vec-training-exp-01/checkpoints/checkpoint_best.pt ../acousticmodels/wawav2vec_0003_checkpoint_best.pt     
 	gsutil cp gs://nicolingua/experiments/nicolingua-0004-va-asr/E401/results_401/checkpoints/VAASRCNN3PoolAvgAggMax/retrained-wav2vec_features-c_0_checkpoints/0800.pt ../acousticmodels/vaasr_401_0800.pt 
+	echo ""  >> scripts/webdemo/config.py
 	echo "WAV2VEC_CHECKPOINT_PATH = \"/home/doumbouya_moussa/git/acousticmodels/wawav2vec_0003_checkpoint_best.pt\"" >> scripts/webdemo/config.py
 	echo "VAASR_CHECKPOINT_PATH = \"/home/doumbouya_moussa/git/acousticmodels/vaasr_401_0800.pt\""  >> scripts/webdemo/config.py
 	sudo fallocate -l 4G /swapfile
 	sudo chmod 600 /swapfile 
 	sudo mkswap /swapfile 
 	sudo swapon /swapfile
+	python3.6 -m venv .venv36
+	source .venv36/bin/activate
+	pip install -U pip wheel
+	pip install -r requirements.txt
 
    

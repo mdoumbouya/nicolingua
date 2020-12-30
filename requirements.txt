@@ -113,3 +113,4 @@ wrapt==1.12.1
 zipp==3.1.0
 Flask==1.1.2
 gunicorn==20.0.4
+-e scripts/
