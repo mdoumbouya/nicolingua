@@ -729,6 +729,9 @@ cloud-nicolingua-data:
 
 
 
+create-ssl-cert:
+	openssl req -nodes -x509 -newkey rsa:4096 -keyout certificates/key.pem -out certificates/cert.pem -days 365
+
 run-web-demo:
 	#export FLASK_APP=webdemo.va_asr_demo_web.py  && flask run --host 0.0.0.0 --cert=certificates/cert.pem --key=certificates/key.pem
 	gunicorn webdemo.va_asr_demo_web:app --bind 0.0.0.0 --certfile=certificates/cert.pem --keyfile=certificates/key.pem --reload
