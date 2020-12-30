@@ -736,3 +736,25 @@ run-web-demo:
 	#export FLASK_APP=webdemo.va_asr_demo_web.py  && flask run --host 0.0.0.0 --cert=certificates/cert.pem --key=certificates/key.pem
 	gunicorn webdemo.va_asr_demo_web:app --bind 0.0.0.0 --certfile=certificates/cert.pem --keyfile=certificates/key.pem --reload
 	
+
+
+setup-gcloud-machine:
+	sudo apt-get update
+	sudo apt-get install python3.6
+	sudo apt-get install python3.6-dev
+	sudo apt-get install python3.6-venv
+	sudo apt-get install build-essential
+	sudo apt-get install libsndfile1
+	sudo apt install ffmpeg
+	gcloud init --project piechlab
+	mkdir ../acousticmodels   
+	gsutil cp gs://nicolingua/experiments/nicolingua-0003-wa-wav2vec/wav2vec-training-exp-01/checkpoints/checkpoint_best.pt ../acousticmodels/wawav2vec_0003_checkpoint_best.pt     
+	gsutil cp gs://nicolingua/experiments/nicolingua-0004-va-asr/E401/results_401/checkpoints/VAASRCNN3PoolAvgAggMax/retrained-wav2vec_features-c_0_checkpoints/0800.pt ../acousticmodels/vaasr_401_0800.pt 
+	echo "WAV2VEC_CHECKPOINT_PATH = \"/home/doumbouya_moussa/git/acousticmodels/wawav2vec_0003_checkpoint_best.pt\"" >> scripts/webdemo/config.py
+	echo "VAASR_CHECKPOINT_PATH = \"/home/doumbouya_moussa/git/acousticmodels/vaasr_401_0800.pt\""  >> scripts/webdemo/config.py
+	sudo fallocate -l 4G /swapfile
+	sudo chmod 600 /swapfile 
+	sudo mkswap /swapfile 
+	sudo swapon /swapfile
+
+   
