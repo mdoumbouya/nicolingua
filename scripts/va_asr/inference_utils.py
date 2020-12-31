@@ -42,8 +42,8 @@ def load_vaasr_model(checkpoint_path):
 
 def get_va_asr_output(wav2vec_model, va_asr_model, wav, max_sequence_length):
     c = get_wav2vec_context_feature(wav2vec_model, wav, max_sequence_length)
-    logits = va_asr_model(c)
-    class_probs = torch.softmax(logits, dim=1)
+    class_logits = va_asr_model(c)
+    class_probs = torch.softmax(class_logits, dim=1)
     sorted_class_ids = torch.argsort(class_probs, dim=1, descending=True)
     return sorted_class_ids, class_logits, class_probs
 
