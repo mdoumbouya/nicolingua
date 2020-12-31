@@ -16,6 +16,7 @@ from va_asr import inference_utils
 from va_asr import models
 from va_asr import data
 from webdemo import config
+from webdemo.dialog_manager import dialog_model
 
 
 from flask import Flask, render_template, request
@@ -40,20 +41,20 @@ def home():
 def asr():
     # wav_input_16khz = inference_utils.load_audio_from_file(fname)
     wav_input_16khz = inference_utils.load_audio_from_file(request.files['audiodata'])
+    current_state = request.post['current_state']
+    current_language = request.post['current_language']
     
-    sorted_class_ids, class_probs = inference_utils.get_va_asr_output(wav2vec, vaasr_model, wav_input_16khz, config.MAX_SEQUENCE_LENGTH)
-    sorted_class_ids = sorted_class_ids[0]
-    class_probs = class_probs[0]
+    sorted_class_ids, class_logits, class_probs = inference_utils.get_va_asr_output(wav2vec, vaasr_model, wav_input_16khz, config.MAX_SEQUENCE_LENGTH)
+    class_id, class_prob, new_state_id, new_language, reply_clips = dialog_model(current_state, current_language, sorted_class_ids, class_logits)
 
-    results = []
+    class_id = sorted_class_ids[i].item()
+    result = {
+        "c": class_dict[class_id],
+        "p": class_prob,
+        "new_state": new_state_id,
+        "new_language": new_language,
+        "reply_clips": reply_clips 
+    }
     
-    for i in range(5):
-        class_id = sorted_class_ids[i].item()
-        results.append(
-            {
-                "c": class_dict[class_id],
-                "p": class_probs[class_id].item()
-            }
-        )
 
-    return json.dumps(results)
+    return json.dumps(result)

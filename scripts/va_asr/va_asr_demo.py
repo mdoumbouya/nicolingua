@@ -25,7 +25,7 @@ def main(args):
         # wav_input_16khz = read_audio(fname)
         wav_input_16khz = inference_utils.load_audio_from_file(fname)
         
-        sorted_class_ids, class_probs = inference_utils.get_va_asr_output(wav2vec, vaasr_model, wav_input_16khz, args.max_sequence_length)
+        sorted_class_ids, class_logits, class_probs = inference_utils.get_va_asr_output(wav2vec, vaasr_model, wav_input_16khz, args.max_sequence_length)
         
         for n in range(sorted_class_ids.shape[0]):
             for i in range(5):
