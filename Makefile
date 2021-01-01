@@ -735,7 +735,7 @@ create-ssl-cert:
 
 run-web-demo:
 	#export FLASK_APP=webdemo.va_asr_demo_web.py  && flask run --host 0.0.0.0 --cert=certificates/cert.pem --key=certificates/key.pem
-	gunicorn webdemo.va_asr_demo_web:app --bind 0.0.0.0 --certfile=certificates/cert.pem --keyfile=certificates/key.pem --reload
+	gunicorn webdemo.va_asr_demo_web:app --bind 0.0.0.0 --certfile=certificates/cert.pem --keyfile=certificates/key.pem --reload --reload-extra-file=scripts/webdemo --capture-output 
 	
 
 

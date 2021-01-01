@@ -36,45 +36,45 @@ DIALOG_SCHEMA = {
 }
 
 ASR_CLASSES = [
-     {"id": 0, "utt_category": "wake_word", "lang":"fr" }
-    ,{"id": 1, "utt_category": "wake_word", "lang":"ma" }
-    ,{"id": 2, "utt_category": "wake_word", "lang":"pu" }
-    ,{"id": 3, "utt_category": "wake_word", "lang":"su" }
+     {"id": 0, "utt_category": "wake_word", "utt":"Savan!", "lang":"fr" }
+    ,{"id": 1, "utt_category": "wake_word", "utt":"Simbon!", "lang":"ma" }
+    ,{"id": 2, "utt_category": "wake_word", "utt":"Waliyou!", "lang":"pu" }
+    ,{"id": 3, "utt_category": "wake_word", "utt":"Korogba!", "lang":"su" }
 
-    ,{"id": 4, "utt_category": "add_contact", "lang":"fr" }
-    ,{"id": 5, "utt_category": "add_contact", "lang":"ma" }
-    ,{"id": 6, "utt_category": "add_contact", "lang":"pu" }
-    ,{"id": 7, "utt_category": "add_contact", "lang":"su" }
+    ,{"id": 4, "utt_category": "add_contact", "utt":"Ajouter un contact", "lang":"fr" }
+    ,{"id": 5, "utt_category": "add_contact", "utt":"Mo do bila a kono", "lang":"ma" }
+    ,{"id": 6, "utt_category": "add_contact", "utt":"Bheyditu godho", "lang":"pu" }
+    ,{"id": 7, "utt_category": "add_contact", "utt":"Mixi n'de sa akui", "lang":"su" }
 
-    ,{"id": 8, "utt_category": "search_contact", "lang":"fr" }
-    ,{"id": 9, "utt_category": "search_contact", "lang":"ma" }
-    ,{"id": 10, "utt_category": "search_contact", "lang":"pu" }
-    ,{"id": 11, "utt_category": "search_contact", "lang":"su" }
+    ,{"id": 8, "utt_category": "search_contact",    "utt":"Cherche une personne", "lang":"fr" }
+    ,{"id": 9, "utt_category": "search_contact",    "utt":"Mo do gninin", "lang":"ma" }
+    ,{"id": 10, "utt_category": "search_contact",   "utt":"Dhabitu godho", "lang":"pu" }
+    ,{"id": 11, "utt_category": "search_contact",   "utt":"Mixi n'de fen", "lang":"su" }
 
-    ,{"id": 12, "utt_category": "update_contact", "lang":"fr" }
-    ,{"id": 13, "utt_category": "update_contact", "lang":"ma" }
-    ,{"id": 14, "utt_category": "update_contact", "lang":"pu" }
-    ,{"id": 15, "utt_category": "update_contact", "lang":"su" }
+    ,{"id": 12, "utt_category": "update_contact", "utt":"Modifie la", "lang":"fr" }
+    ,{"id": 13, "utt_category": "update_contact", "utt":"Wo mafalin", "lang":"ma" }
+    ,{"id": 14, "utt_category": "update_contact", "utt":"Wattitu mo", "lang":"pu" }
+    ,{"id": 15, "utt_category": "update_contact", "utt":"Na masara", "lang":"su" }
 
-    ,{"id": 16, "utt_category": "delete_contact", "lang":"fr" }
-    ,{"id": 17, "utt_category": "delete_contact", "lang":"ma" }
-    ,{"id": 18, "utt_category": "delete_contact", "lang":"pu" }
-    ,{"id": 19, "utt_category": "delete_contact", "lang":"su" }
+    ,{"id": 16, "utt_category": "delete_contact", "utt":"Supprime la", "lang":"fr" }
+    ,{"id": 17, "utt_category": "delete_contact", "utt":"Wo bo a kono", "lang":"ma" }
+    ,{"id": 18, "utt_category": "delete_contact", "utt":"Ittu mo", "lang":"pu" }
+    ,{"id": 19, "utt_category": "delete_contact", "utt":"Na ba a kui", "lang":"su" }
 
-    ,{"id": 20, "utt_category": "call_contact", "lang":"fr" }
-    ,{"id": 21, "utt_category": "call_contact", "lang":"ma" }
-    ,{"id": 22, "utt_category": "call_contact", "lang":"pu" }
-    ,{"id": 23, "utt_category": "call_contact", "lang":"su" }
+    ,{"id": 20, "utt_category": "call_contact", "utt":"Appele la", "lang":"fr" }
+    ,{"id": 21, "utt_category": "call_contact", "utt":"Wo wolé", "lang":"ma" }
+    ,{"id": 22, "utt_category": "call_contact", "utt":"Nodou mo", "lang":"pu" }
+    ,{"id": 23, "utt_category": "call_contact", "utt":"Na xili", "lang":"su" }
 
-    ,{"id": 24, "utt_category": "yes", "lang":"fr" }
-    ,{"id": 25, "utt_category": "yes", "lang":"ma" }
-    ,{"id": 26, "utt_category": "yes", "lang":"pu" }
-    ,{"id": 27, "utt_category": "yes", "lang":"su" }
+    ,{"id": 24, "utt_category": "yes", "utt":"Oui", "lang":"fr" }
+    ,{"id": 25, "utt_category": "yes", "utt":"O-hon", "lang":"ma" }
+    ,{"id": 26, "utt_category": "yes", "utt":"I-hin", "lang":"pu" }
+    ,{"id": 27, "utt_category": "yes", "utt":"I-yo", "lang":"su" }
 
-    ,{"id": 28, "utt_category": "no", "lang":"fr" }
-    ,{"id": 29, "utt_category": "no", "lang":"ma" }
-    ,{"id": 30, "utt_category": "no", "lang":"pu" }
-    ,{"id": 31, "utt_category": "no", "lang":"su" }
+    ,{"id": 28, "utt_category": "no", "utt":"Non", "lang":"fr" }
+    ,{"id": 29, "utt_category": "no", "utt":"E-hen", "lang":"ma" }
+    ,{"id": 30, "utt_category": "no", "utt":"O-oye", "lang":"pu" }
+    ,{"id": 31, "utt_category": "no", "utt":"Adé", "lang":"su" }
 
     ,{"id": 32, "utt_category": "digit", "utt":"0", "lang":"fr" }
     ,{"id": 33, "utt_category": "digit", "utt":"0", "lang":"ma" }
@@ -126,43 +126,42 @@ ASR_CLASSES = [
     ,{"id": 70, "utt_category": "digit", "utt":"9", "lang":"pu" }
     ,{"id": 71, "utt_category": "digit", "utt":"9", "lang":"su" }
 
+    ,{"id": 72, "utt_category": "name", "utt":"Maman", "lang":"fr" }
+    ,{"id": 73, "utt_category": "name", "utt":"N'na", "lang":"ma" }
+    ,{"id": 74, "utt_category": "name", "utt":"Nene", "lang":"pu" }
+    ,{"id": 75, "utt_category": "name", "utt":"N'ga", "lang":"su" }
 
-    ,{"id": 72, "utt_category": "name", "utt":"mom", "lang":"fr" }
-    ,{"id": 73, "utt_category": "name", "utt":"mom", "lang":"ma" }
-    ,{"id": 74, "utt_category": "name", "utt":"mom", "lang":"pu" }
-    ,{"id": 75, "utt_category": "name", "utt":"mom", "lang":"su" }
-
-    ,{"id": 76, "utt_category": "name", "utt":"dad", "lang":"fr" }
-    ,{"id": 77, "utt_category": "name", "utt":"dad", "lang":"ma" }
-    ,{"id": 78, "utt_category": "name", "utt":"dad", "lang":"pu" }
-    ,{"id": 79, "utt_category": "name", "utt":"dad", "lang":"su" }
+    ,{"id": 76, "utt_category": "name", "utt":"Papa", "lang":"fr" }
+    ,{"id": 77, "utt_category": "name", "utt":"N'fa", "lang":"ma" }
+    ,{"id": 78, "utt_category": "name", "utt":"Baba", "lang":"pu" }
+    ,{"id": 79, "utt_category": "name", "utt":"M'ba", "lang":"su" }
 
 
-    ,{"id": 80, "utt_category": "name", "utt":"fatoumata", "lang": "na"}
-    ,{"id": 81, "utt_category": "name", "utt":"mamadou", "lang": "na"}
-    ,{"id": 82, "utt_category": "name", "utt":"mariama", "lang": "na"}
-    ,{"id": 83, "utt_category": "name", "utt":"mohamed", "lang": "na"}
-    ,{"id": 84, "utt_category": "name", "utt":"kadiatou", "lang": "na"}
-    ,{"id": 85, "utt_category": "name", "utt":"ibrahima", "lang": "na"}
-    ,{"id": 86, "utt_category": "name", "utt":"aissatou", "lang": "na"}
-    ,{"id": 87, "utt_category": "name", "utt":"aminata", "lang": "na"}
-    ,{"id": 88, "utt_category": "name", "utt":"alpha", "lang": "na"}
-    ,{"id": 89, "utt_category": "name", "utt":"thierno", "lang": "na"}
-    ,{"id": 90, "utt_category": "name", "utt":"abdoulaye", "lang": "na"}
-    ,{"id": 91, "utt_category": "name", "utt":"aboubacar", "lang": "na"}
-    ,{"id": 92, "utt_category": "name", "utt":"amadou", "lang": "na"}
-    ,{"id": 93, "utt_category": "name", "utt":"fanta", "lang": "na"}
-    ,{"id": 94, "utt_category": "name", "utt":"mariame", "lang": "na"}
-    ,{"id": 95, "utt_category": "name", "utt":"oumou", "lang": "na"}
-    ,{"id": 96, "utt_category": "name", "utt":"ousmane", "lang": "na"}
-    ,{"id": 97, "utt_category": "name", "utt":"adama", "lang": "na"}
-    ,{"id": 98, "utt_category": "name", "utt":"marie", "lang": "na"}
-    ,{"id": 99, "utt_category": "name", "utt":"moussa", "lang": "na"}
-    ,{"id": 100, "utt_category": "name", "utt":"aissata", "lang":"na"}
-    ,{"id": 101, "utt_category": "name", "utt":"hawa", "lang":"na"}
-    ,{"id": 102, "utt_category": "name", "utt":"sekou", "lang":"na"}
-    ,{"id": 103, "utt_category": "name", "utt":"hadja", "lang":"na"}
-    ,{"id": 104, "utt_category": "name", "utt":"djenabou", "lang":"na"}
+    ,{"id": 80, "utt_category": "name", "utt":"Fatoumata", "lang": "na"}
+    ,{"id": 81, "utt_category": "name", "utt":"Mamadou", "lang": "na"}
+    ,{"id": 82, "utt_category": "name", "utt":"Mariama", "lang": "na"}
+    ,{"id": 83, "utt_category": "name", "utt":"Mohamed", "lang": "na"}
+    ,{"id": 84, "utt_category": "name", "utt":"Kadiatou", "lang": "na"}
+    ,{"id": 85, "utt_category": "name", "utt":"Ibrahima", "lang": "na"}
+    ,{"id": 86, "utt_category": "name", "utt":"Aïssatou", "lang": "na"}
+    ,{"id": 87, "utt_category": "name", "utt":"Aminata", "lang": "na"}
+    ,{"id": 88, "utt_category": "name", "utt":"Alpha", "lang": "na"}
+    ,{"id": 89, "utt_category": "name", "utt":"Thierno", "lang": "na"}
+    ,{"id": 90, "utt_category": "name", "utt":"Abdoulaye", "lang": "na"}
+    ,{"id": 91, "utt_category": "name", "utt":"Aboubacar", "lang": "na"}
+    ,{"id": 92, "utt_category": "name", "utt":"Amadou", "lang": "na"}
+    ,{"id": 93, "utt_category": "name", "utt":"Fanta", "lang": "na"}
+    ,{"id": 94, "utt_category": "name", "utt":"Mariame", "lang": "na"}
+    ,{"id": 95, "utt_category": "name", "utt":"Oumou", "lang": "na"}
+    ,{"id": 96, "utt_category": "name", "utt":"Ousmane", "lang": "na"}
+    ,{"id": 97, "utt_category": "name", "utt":"Adama", "lang": "na"}
+    ,{"id": 98, "utt_category": "name", "utt":"Marie", "lang": "na"}
+    ,{"id": 99, "utt_category": "name", "utt":"Moussa", "lang": "na"}
+    ,{"id": 100, "utt_category": "name", "utt":"Aïssata", "lang":"na"}
+    ,{"id": 101, "utt_category": "name", "utt":"Hawa", "lang":"na"}
+    ,{"id": 102, "utt_category": "name", "utt":"Sékou", "lang":"na"}
+    ,{"id": 103, "utt_category": "name", "utt":"Hadja", "lang":"na"}
+    ,{"id": 104, "utt_category": "name", "utt":"Djénabou", "lang":"na"}
 ]
 
 
@@ -208,5 +207,21 @@ def dialog_model(current_state, current_language, sorted_class_ids, class_logits
     predicted_transition = single([t for t in possible_transitions if t['utt_category'] == predicted_class['utt_category']])
     new_state_id = predicted_transition['tid']
     reply_clips = []
+    dialog_context_data = get_dialog_context_data(predicted_class, predicted_transition)
 
-    return predicted_class_id, predicted_class_prob, new_state_id, new_language, reply_clips
+    return predicted_class, predicted_class_prob, new_state_id, new_language, reply_clips, dialog_context_data
+
+
+def get_dialog_context_data(predicted_class, predicted_transition):
+    ctx = {}
+
+    if predicted_transition['sid'] == 2 and predicted_transition['tid'] == 4:
+        ctx['contact_new_name'] = predicted_class['utt']
+    elif predicted_transition['sid'] == 3 and predicted_transition['tid'] == 7:
+        ctx['contact_name'] = predicted_class['utt']
+    elif predicted_transition['sid'] == 7 and predicted_transition['tid'] == 2:
+        ctx['updating_contact'] = True
+    elif predicted_transition['sid'] == 4 and predicted_transition['tid'] == 5:
+        ctx['phone_number'] = predicted_class['utt']
+        
+    return ctx

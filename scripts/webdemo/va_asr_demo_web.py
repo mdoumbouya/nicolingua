@@ -25,7 +25,8 @@ import json
 
 app = Flask(__name__)
 
-
+app.config['DEBUG'] = config.DEBUG
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = config.SEND_FILE_MAX_AGE_DEFAULT
 
 wav2vec = inference_utils.load_wav2vec(config.WAV2VEC_CHECKPOINT_PATH).eval()
 vaasr_model = inference_utils.load_vaasr_model(config.VAASR_CHECKPOINT_PATH).eval()
@@ -44,16 +45,16 @@ def asr():
     wav_input_16khz = inference_utils.load_audio_from_file(request.files['audiodata'])
     
     sorted_class_ids, class_logits, class_probs = inference_utils.get_va_asr_output(wav2vec, vaasr_model, wav_input_16khz, config.MAX_SEQUENCE_LENGTH)
-    class_id, class_prob, new_state_id, new_language, reply_clips = dialog_model(current_state, current_language, sorted_class_ids[0].tolist(), class_logits[0].tolist())
+    predicted_class, class_prob, new_state_id, new_language, reply_clips, dialog_context_data = dialog_model(current_state, current_language, sorted_class_ids[0].tolist(), class_logits[0].tolist())
 
     result = {
-        "class_id": class_id,
-        "class_description": class_dict[class_id],
-        "class_prob_orig": class_probs[0].tolist()[class_id],
+        "class": predicted_class,
+        "class_prob_orig": class_probs[0].tolist()[predicted_class['id']],
         "class_prob_ctx": class_prob,
         "new_state": new_state_id,
         "new_language": new_language,
-        "reply_clips": reply_clips 
+        "reply_clips": reply_clips,
+        "dialog_context": dialog_context_data
     }
     
     return json.dumps(result)
