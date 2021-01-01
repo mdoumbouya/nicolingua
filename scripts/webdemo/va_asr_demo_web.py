@@ -19,7 +19,7 @@ from webdemo import config
 from webdemo.dialog_manager import dialog_model
 
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for
 import json
 
 
