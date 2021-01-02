@@ -7,7 +7,7 @@
     height: 8vh;
 }
 
-#contactList{
+#contactListContainer{
     overflow: scroll;
     border: solid 2px gray;
 }
