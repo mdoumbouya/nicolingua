@@ -11,3 +11,9 @@
     overflow: scroll;
     border: solid 2px gray;
 }
+
+#btnParler {
+    background: url('/static/bootstrap-icons-1.2.2/mic-fill.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+}

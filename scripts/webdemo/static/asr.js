@@ -329,7 +329,8 @@ function startup() {
 
 }
 
+/*
 $("body").on("contextmenu",function(e){
     return false;
-});
+});*/
 startup();
