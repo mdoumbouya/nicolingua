@@ -2,8 +2,52 @@ let chunks = [];
 previous_dialog_state = 0
 dialog_state = 0
 dialog_language = 'none'
-dialog_context = {}
-contacts = []
+
+class DialogContext {
+    get phone_number(){
+        return `${this.phone_number_digit_1}${this.phone_number_digit_2}${this.phone_number_digit_3}${this.phone_number_digit_4}${this.phone_number_digit_5}${this.phone_number_digit_6}${this.phone_number_digit_7}${this.phone_number_digit_8}${this.phone_number_digit_9}`;
+    }
+}
+
+dialog_context = new DialogContext()
+
+function load_contacts(){
+    var c_str = localStorage.getItem("contacts");
+    if (c_str == null) {
+        return [];
+    }
+    else{
+        return JSON.parse(c_str);
+    }
+}
+
+function save_contacts(contacts){
+    var c_str = JSON.stringify(contacts)
+    localStorage.setItem("contacts", c_str);
+}
+
+
+var contact_template = `{{#contacts}}
+    <div class='col-12'>
+        <div class='row d-flex align-items-center justify-content-center contact'>
+            <div class='col-3'>
+            <img src='/static/bootstrap-icons-1.2.2/person-square.svg' class='align-middle'>
+            </div>
+            <div class='col-9'>
+            <div style='height:8vh' class='align-middle'>
+                <h5>{{contact_name}}</h5>
+                <h5>{{phone_number}}</h5>
+            </div>
+            </div>
+        </div>
+    </div>
+{{/contacts}}`
+
+function render_contacts() {
+    var rendered = Mustache.render(contact_template, {contacts: load_contacts()});
+    document.getElementById('contactList').innerHTML = rendered;
+}
+
 
 response_speech_keys = {
     "0__1":"wake_yes",
@@ -16,11 +60,19 @@ response_speech_keys = {
     "3__7":"request_found_contact_action",
     
     "4__0":"contact_already_exists",
-    "4__4":"request_another_digit",
-    "4__5":"confirm_add_update",
 
+    "4__51":"request_another_digit",
+    "51__52":"request_another_digit",
+    "52__53":"request_another_digit",
+    "53__54":"request_another_digit",
+    "54__55":"request_another_digit",
+    "55__56":"request_another_digit",
+    "56__57":"request_another_digit",
+    "57__58":"request_another_digit",
+    "58__59":"confirm_add_update",
+
+    "59__0":"canceled_adding_contact",
     "6__0":"added_contact",
-    "5__0":"canceled_adding_contact",
 
     "7__0":"contact_not_found",
     "7__2":"request_contact_new_name",
@@ -37,7 +89,8 @@ response_speech_keys = {
 function resetDialog(){
     previous_dialog_state = dialog_state;
     dialog_state = 0;
-    dialog_context = {};
+    dialog_context = new DialogContext();
+    render_contacts();
 }
 
 
@@ -47,13 +100,15 @@ function speakBack(previous_dialog_state, dialog_state) {
         var speech_key = response_speech_keys[transition_key];
         var a = new Audio("/static/agent_speech/" + dialog_language + "/" + speech_key + ".mp3");
         a.play();
-    } 
+    }
 }
 
 function handleFinalDialogState(stateId, dialogCtxData){
     // handle ADD_OR_UPDATE_CONTACT
     if(stateId == 6){
-        if(dialogCtxData.updating_contact){
+        var contacts = load_contacts();
+
+        if(dialogCtxData.updating_contact){    
             var contactIndex = contacts.findIndex(function(c){
                 return c.contact_name == dialogCtxData.contact_name;
             });
@@ -69,18 +124,18 @@ function handleFinalDialogState(stateId, dialogCtxData){
             );
         }
 
+        save_contacts(contacts);
         resetDialog();
     }
 
     // handle existing contact name
     else if(stateId == 4){
-        console.log("TEST1");
         if(dialogCtxData.updating_contact === undefined){
-            console.log("TEST2");
+            var contacts = load_contacts();
             var contactIndex = contacts.findIndex(function(c){
                 return c.contact_name == dialogCtxData.contact_new_name;
             });
-            console.log(contactIndex);
+            
             if (contactIndex != -1){
                 // contact name already exist
                 resetDialog();
@@ -91,6 +146,7 @@ function handleFinalDialogState(stateId, dialogCtxData){
 
     // handle SEACH_CONTACT unsuccessful
     else if (stateId == 7){
+        var contacts = load_contacts();
         var contactIndex = contacts.findIndex(function(c){
             return c.contact_name == dialogCtxData.contact_name;
         });
@@ -101,6 +157,7 @@ function handleFinalDialogState(stateId, dialogCtxData){
 
     // handle CALL_CONTACT
     else if (stateId == 9){
+        var contacts = load_contacts();
         var contactIndex = contacts.findIndex(function(c){
             return c.contact_name == dialogCtxData.contact_name;
         });
@@ -111,12 +168,14 @@ function handleFinalDialogState(stateId, dialogCtxData){
 
     // handle DELETE_CONTACT
     else if (stateId == 11){
+        var contacts = load_contacts();
         var contactIndex = contacts.findIndex(function(c){
             return c.contact_name == dialogCtxData.contact_name;
         });
         // delete contacts[contactIndex];
         contacts.splice(contactIndex, 1)
 
+        save_contacts(contacts);
         resetDialog();
     }
 }
@@ -163,6 +222,9 @@ function stoppedRecording(e){
             $("#resultLoading").hide();
             $("#resultFailure").hide();
             $("#resultSuccess").show();
+            setTimeout(() => {
+                $("#resultSuccess").hide();
+            }, 1500);
             
             
             handleFinalDialogState(dialog_state, dialog_context);
@@ -241,6 +303,7 @@ function startup() {
     $("#resultLoading").hide();
     $("#resultFailure").hide();
     $("#resultSuccess").show();
+    render_contacts();
 
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         console.log('getUserMedia supported.');
@@ -266,5 +329,7 @@ function startup() {
 
 }
 
-
+$("body").on("contextmenu",function(e){
+    return false;
+});
 startup();

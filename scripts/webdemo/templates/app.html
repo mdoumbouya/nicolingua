@@ -1,49 +1,73 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta http-equiv="ScreenOrientation" content="autoRotate:disabled">
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
 
     <!-- Bootstrap CSS -->
     <link href="/static/bootstrap-5.0.0-beta1-dist//css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link href="/static/asr.css" rel="stylesheet">
 
     <title>West African Virtual Assistant</title>
   </head>
   <body>
-    <h1 class="text-center">Assistant Virtuel</h1>
+    
+    <script id="contactTemplate" type="x-tmpl-mustache">
+      
+    </script>
 
     <div class="container-fluid">
 
-        <div class="col-12">
-            <div id="resultLoading" class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
+        <div class="row" style="min-height:25vh;">
+          <h3>
+            WAVA
+            <small class="text-muted">Gestion des Contacts</small>
+          </h3>
+          <div class="col-12">
+              <div id="resultLoading" class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
 
-            <div id="resultSuccess" class="alert alert-success" role="alert">
-                <h1 id="textFromSpeech" class="text-center">Appuiyez sur le boutton pour parler</h1>
-            </div>
+              <div id="resultSuccess" class="alert alert-success" role="alert">
+                  <h1 id="textFromSpeech" class="text-center">Appuiyez sur le boutton pour parler</h1>
+              </div>
 
-            <div id="resultFailure" class="alert alert-danger" role="alert">
-              Une erreur s'est produite. Essayez encore.
-            </div>
-            
+              <div id="resultFailure" class="alert alert-danger" role="alert">
+                Une erreur s'est produite. Essayez encore.
+              </div>
+          </div>
         </div>
 
 
-        <div class="col-12" class="position-relative">
-            <button 
-                id="btnParler"
-                type="button" 
-                class="btn btn-success rounded-pill position-absolute top-50 start-50 translate-middle"
-                style="width: 10rem; height:10rem;">
-                <h1>🎤</h1>
-            </button>
+        <div id ="contactList" class="row gy-1" style="min-height: 50vh; height: 50vh;">
+
+          
+
+        </div>
+
+
+        <div class="row" style="min-height: 15vh;">
+          <div class="col-12  d-flex align-items-center justify-content-center">
+              <button 
+                  id="btnParler"
+                  type="button" 
+                  class="btn btn-success rounded-pill"
+                  style="width: 10vh; height:10vh; left:30vw;">
+
+                  <img src="/static/bootstrap-icons-1.2.2/mic-fill.svg" alt="" width="32" height="32" title="Bootstrap">
+
+                  <!-- <span>🎤</span> -->
+              </button>
+          </div>
         </div>
     </div>
 
     <script src="/static/bootstrap-5.0.0-beta1-dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     <script src="/static/jquery-3.5.1.min.js"></script>
+    <script src="/static/mustache.js-3.1.0/mustache.min.js"></script>
     <script src="/static/asr.js"></script>
   </body>
 </html>

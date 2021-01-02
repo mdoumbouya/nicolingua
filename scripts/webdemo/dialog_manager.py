@@ -7,7 +7,15 @@ DIALOG_SCHEMA = {
         ,{ "id": 2, "final": False}
         ,{ "id": 3, "final": False}
         ,{ "id": 4, "final": False}
-        ,{ "id": 5, "final": False}
+        ,{ "id": 51, "final": False}
+        ,{ "id": 52, "final": False}
+        ,{ "id": 53, "final": False}
+        ,{ "id": 54, "final": False}
+        ,{ "id": 55, "final": False}
+        ,{ "id": 56, "final": False}
+        ,{ "id": 57, "final": False}
+        ,{ "id": 58, "final": False}
+        ,{ "id": 59, "final": False}
         ,{ "id": 6, "final": True, "intent": "ADD_OR_UPDATE_CONTACT"}
         ,{ "id": 7, "final": False}
         ,{ "id": 8, "final": False}
@@ -21,9 +29,17 @@ DIALOG_SCHEMA = {
         ,{"sid":1, "tid":3, "utt_category": "search_contact"}
         ,{"sid":2, "tid":4, "utt_category": "name"}
         ,{"sid":3, "tid":7, "utt_category": "name"}
-        ,{"sid":4, "tid":5, "utt_category": "digit"}
-        ,{"sid":5, "tid":6, "utt_category": "yes"}
-        ,{"sid":5, "tid":0, "utt_category": "no"}
+        ,{"sid":4, "tid":51, "utt_category": "digit"}
+        ,{"sid":51, "tid":52, "utt_category": "digit"}
+        ,{"sid":52, "tid":53, "utt_category": "digit"}
+        ,{"sid":53, "tid":54, "utt_category": "digit"}
+        ,{"sid":54, "tid":55, "utt_category": "digit"}
+        ,{"sid":55, "tid":56, "utt_category": "digit"}
+        ,{"sid":56, "tid":57, "utt_category": "digit"}
+        ,{"sid":57, "tid":58, "utt_category": "digit"}
+        ,{"sid":58, "tid":59, "utt_category": "digit"}
+        ,{"sid":59, "tid":6, "utt_category": "yes"}
+        ,{"sid":59, "tid":0, "utt_category": "no"}
         ,{"sid":7, "tid":2, "utt_category": "update_contact"}
         ,{"sid":7, "tid":8, "utt_category": "call_contact"}
         ,{"sid":7, "tid":10, "utt_category": "delete_contact"}
@@ -221,7 +237,23 @@ def get_dialog_context_data(predicted_class, predicted_transition):
         ctx['contact_name'] = predicted_class['utt']
     elif predicted_transition['sid'] == 7 and predicted_transition['tid'] == 2:
         ctx['updating_contact'] = True
-    elif predicted_transition['sid'] == 4 and predicted_transition['tid'] == 5:
-        ctx['phone_number'] = predicted_class['utt']
+    elif predicted_transition['sid'] == 4 and predicted_transition['tid'] == 51:
+        ctx['phone_number_digit_1'] = predicted_class['utt']
+    elif predicted_transition['sid'] == 51 and predicted_transition['tid'] == 52:
+        ctx['phone_number_digit_2'] = predicted_class['utt']
+    elif predicted_transition['sid'] == 52 and predicted_transition['tid'] == 53:
+        ctx['phone_number_digit_3'] = predicted_class['utt']
+    elif predicted_transition['sid'] == 53 and predicted_transition['tid'] == 54:
+        ctx['phone_number_digit_4'] = predicted_class['utt']
+    elif predicted_transition['sid'] == 54 and predicted_transition['tid'] == 55:
+        ctx['phone_number_digit_5'] = predicted_class['utt']
+    elif predicted_transition['sid'] == 55 and predicted_transition['tid'] == 56:
+        ctx['phone_number_digit_6'] = predicted_class['utt']
+    elif predicted_transition['sid'] == 56 and predicted_transition['tid'] == 57:
+        ctx['phone_number_digit_7'] = predicted_class['utt']
+    elif predicted_transition['sid'] == 57 and predicted_transition['tid'] == 58:
+        ctx['phone_number_digit_8'] = predicted_class['utt']
+    elif predicted_transition['sid'] == 58 and predicted_transition['tid'] == 59:
+        ctx['phone_number_digit_9'] = predicted_class['utt']
         
     return ctx

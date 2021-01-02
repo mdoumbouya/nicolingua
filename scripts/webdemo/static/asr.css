@@ -1,0 +1,13 @@
+.contact{
+    border: solid 2px gray;
+    height: 10vh;
+}
+
+.contact img{
+    height: 8vh;
+}
+
+#contactList{
+    overflow: scroll;
+    border: solid 2px gray;
+}
