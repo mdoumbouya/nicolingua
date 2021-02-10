@@ -9,8 +9,29 @@ import pydub
 from pydub.effects import normalize
 
 
-SEGMENT_FNAME_REGEX = re.compile("(?P<recording_session_id>r\d+)_(?P<speaker_id>s\d+)_(?P<device_id>d\d+)_(?P<language>\w+)__.*__(?P<utterance_id>\d+_.*)")
-KNOWN_LANGUAGES = {'maninka', 'susu', 'pular', 'francais', 'english', '_language_independent'}
+class AnnotationStats:
+    def __init__(self):
+        self._s_dict = {}
+
+    def increment(self, lang_id, utt_id):
+        s_key = f"{lang_id}_{utt_id}"
+        s_lang_key = lang_id
+        for k in [s_key, s_lang_key]:
+            if k not in self._s_dict:
+                self._s_dict[k] = 0
+
+        self._s_dict[s_key] += 1
+        self._s_dict[s_lang_key] += 1
+
+    def log_stats(self):
+        for k in sorted(list(self._s_dict.keys())):
+            logging.info(f"Annotation Stats: {k}\t\t:{self._s_dict[k]}")
+
+
+
+AUDACITY_ANNOTATION_FNAME_REGEX = re.compile("(?P<recording_session_id>r\d+)_(?P<speaker_id>s\d+)_(?P<device_id>d\d+)_(?P<language>\w+)__.*")
+# KNOWN_LANGUAGES = {'maninka', 'susu', 'pular', 'francais', 'english', '_language_independent'}
+KNOWN_LANGUAGES = {'maninka', 'susu', 'pular', 'francais', '_language_independent'} # there are a few clips in english to be removed.
 KNOWN_GENDERS = {"M", "F"}
 KNOWN_UTTERANCES = {
     "101_wake_word", 
@@ -65,7 +86,7 @@ KNOWN_UTTERANCES = {
 }
 
 
-def process_audio_file(annotation_fname, audio_fname, metadata_dict_writer, speakers_dict, args):
+def process_audio_file(annotation_fname, audio_fname, metadata_dict_writer, speakers_dict, a_stats, args):
     logging.debug(f"processing {audio_fname}...")
     with open(annotation_fname) as f:
         audio_segment = pydub.AudioSegment.from_file(audio_fname)
@@ -89,13 +110,14 @@ def process_audio_file(annotation_fname, audio_fname, metadata_dict_writer, spea
             segment = segment.set_frame_rate(args.frame_rate)
             segment = segment.set_channels(args.channels)
             
-            segment_fname = Path(args.output_dir) / f"{annotation_fname.stem}__{a['marker']}.wav" 
-
             try:
-                m_record = SEGMENT_FNAME_REGEX.match(segment_fname.stem).groupdict()
+                m_record = AUDACITY_ANNOTATION_FNAME_REGEX.match(annotation_fname.stem).groupdict()
             except:
-                logging.error(f"Could not parse annotated segment name: {segment_fname.stem}")
+                logging.error(f"Could not parse annotation file name: {annotation_fname.stem}")
                 continue
+
+            m_record["utterance_id"] = a['marker']
+            segment_fname = Path(args.output_dir) / f"{m_record['recording_session_id']}_{m_record['speaker_id']}_{m_record['device_id']}_{m_record['language']}_{m_record['utterance_id']}.wav"
             
             if m_record['utterance_id'] not in KNOWN_UTTERANCES:
                 logging.error(f"Unknown utterance {m_record['utterance_id']} in {annotation_fname}")
@@ -133,6 +155,8 @@ def process_audio_file(annotation_fname, audio_fname, metadata_dict_writer, spea
 
             metadata_dict_writer.writerow(m_record)
 
+            a_stats.increment(m_record['language'], m_record['utterance_id'])
+
 
 def load_speakers(args):
     speakers_fname = Path(args.input_dir) / 'meta' / 'speakers.csv'
@@ -144,6 +168,8 @@ def load_speakers(args):
 
 def main(args):
     speakers_dict = load_speakers(args)
+
+    a_stats = AnnotationStats()
 
     with open(Path(args.output_dir) / "metadata.csv", "w") as metadata_f:
         metadata_dict_writer = csv.DictWriter(metadata_f, fieldnames = ["file", "recording_session_id", "speaker_id", "device_id", "language", "utterance_id", "label", "speaker_age", "speaker_gender", "speaker_mothertongue"])
@@ -160,11 +186,11 @@ def main(args):
                 continue
             
             try:
-                process_audio_file(annotation_fname, audio_fname, metadata_dict_writer, speakers_dict, args)
+                process_audio_file(annotation_fname, audio_fname, metadata_dict_writer, speakers_dict, a_stats, args)
             except:
                 logging.exception(f"Unable to process {annotation_fname}")
 
-            
+    a_stats.log_stats()
 
 
 def parse_arguments():
@@ -182,7 +208,6 @@ def parse_arguments():
 
 
 def configure_logging(args):
-    # module_name = sys.modules[__name__].__file__.stem
     module_name = Path(__file__).stem
     
     logging.basicConfig(
