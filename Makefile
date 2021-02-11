@@ -408,6 +408,15 @@ $(VA_ASR_DIR)/annotated_segments/metadata.csv:
 		$(VA_ASR_DIR)/curation/ \
 		$(VA_ASR_DIR)/annotated_segments
 
+	python scripts/va_asr/anonymize_csv.py \
+		$(VA_ASR_DIR)/curation/meta/recording_sessions.csv --column-name name > $(VA_ASR_DIR)/curation/meta/recording_sessions_a.csv
+
+	python scripts/va_asr/anonymize_csv.py \
+		$(VA_ASR_DIR)/curation/meta/devices.csv --column-name user > $(VA_ASR_DIR)/curation/meta/devices_a.csv
+
+	python scripts/va_asr/anonymize_csv.py \
+		$(VA_ASR_DIR)/curation/meta/speakers.csv --column-name name > $(VA_ASR_DIR)/curation/meta/speakers_a.csv
+
 # baseline features - wav2vec
 ${VA_ASR_DIR}/wav2vec_features-c:
 	python ../fairseq/examples/wav2vec/wav2vec_featurize.py \
@@ -767,3 +776,14 @@ setup-gcloud-machine: create-ssl-cert
 	pip install -r requirements.txt
 
    
+
+
+# Public Release Temp Scripts
+sync-nicolingua-to-s3:
+	aws s3 sync \
+		/media/xtrem/data/experiments/nicolingua/ \
+		s3://nicolingua/
+
+
+	
+	
