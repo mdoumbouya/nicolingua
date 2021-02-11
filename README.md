@@ -19,12 +19,16 @@
 
 **Download via https**
 ```
-wget https://nicolingua.s3.eu-west-2.amazonaws.com/nicolingua-0003-west-african-radio-corpus.tgz
+wget \
+    https://nicolingua.s3.eu-west-2.amazonaws.com/nicolingua-0003-west-african-radio-corpus.tgz \
+    nicolingua-0003-west-african-radio-corpus.tgz
 ```
 
 **Download with aws-cli**
 ```
-aws s3 cp s3://nicolingua/nicolingua-0003-west-african-radio-corpus-openslr.tgz nicolingua-0003-west-african-radio-corpus-openslr.tgz
+aws s3 cp \
+    s3://nicolingua/nicolingua-0003-west-african-radio-corpus-openslr.tgz \
+    nicolingua-0003-west-african-radio-corpus-openslr.tgz
 ```
 
 # Dataset: West African Virtual Assistant Speech Recognition Corpus:
@@ -32,25 +36,35 @@ aws s3 cp s3://nicolingua/nicolingua-0003-west-african-radio-corpus-openslr.tgz 
 
 **Download via https**
 ```
-wget https://nicolingua.s3.eu-west-2.amazonaws.com/nicolingua-0004-west-african-va-asr-corpus.tgz nicolingua-0004-west-african-va-asr-corpus.tgz
+wget \
+    https://nicolingua.s3.eu-west-2.amazonaws.com/nicolingua-0004-west-african-va-asr-corpus.tgz \
+    nicolingua-0004-west-african-va-asr-corpus.tgz
 ```
 
 **Download with aws-cli**
 ```
-aws s3 cp s3://nicolingua/nicolingua-0004-west-african-va-asr-corpus.tgz nicolingua-0004-west-african-va-asr-corpus.tgz
+aws s3 cp \
+    s3://nicolingua/nicolingua-0004-west-african-va-asr-corpus.tgz \
+    nicolingua-0004-west-african-va-asr-corpus.tgz
 ```
 
 # Pre-Trained Model: West African Wav2vec
 
+Compatible with the [baseline wav2vec large](https://github.com/pytorch/fairseq/tree/master/examples/wav2vec) model. Traned on the West African Radio Corpus.
+
 
 **Download via https**
 ```
-wget https://nicolingua.s3.eu-west-2.amazonaws.com/nicolingua-0003-west-african-wav2vec.tgz nicolingua-0003-west-african-wav2vec.tgz
+wget \
+    https://nicolingua.s3.eu-west-2.amazonaws.com/nicolingua-0003-west-african-wav2vec.tgz \
+    nicolingua-0003-west-african-wav2vec.tgz
 ```
 
 **Download with aws-cli**
 ```
-aws s3 cp s3://nicolingua/nicolingua-0003-west-african-wav2vec.tgz nicolingua-0003-west-african-wav2vec.tgz
+aws s3 cp \
+    s3://nicolingua/nicolingua-0003-west-african-wav2vec.tgz \
+    nicolingua-0003-west-african-wav2vec.tgz
 ```
 
 
