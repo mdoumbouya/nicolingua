@@ -11,26 +11,72 @@
     - [Makefile](Makefile)
 
 
-# Datasets
 
-|Dataset Description | Download Links|
-|--|--|
-|**West African Radio Corpus:** 17,091 audio clips of length 30 seconds sampled from archives collected from 6 Guinean radio stations. The broadcasts consist of news and various radio shows in languages including French, Guerze, Koniaka, Kissi, Kono, Maninka, Mano, Pular, Susu, and Toma. Some radio shows include phone calls, background and foreground music, and various noise types. | Coming Soon|
-|**West African Virtual Assistant Speech Recognition Corpus:** 10,083 recorded utterances from 49 speakers (16 female and 33 male) ranging from 5 to 76 years old on a variety of devices.|Coming Soon|
-
-## 
+# Dataset: West African Radio Corpus
+17,091 audio clips of length 30 seconds sampled from archives collected from 6 Guinean radio stations. The broadcasts consist of news and various radio shows in languages including French, Guerze, Koniaka, Kissi, Kono, Maninka, Mano, Pular, Susu, and Toma. Some radio shows include phone calls, background and foreground music, and various noise types. 
 
 
-# Pre-Trained Models
-|Model| Download Link|
-|--|--|
-|West African Wav2vec| Coming Soon|
-|Multilingual Virtual ASR Model| Coming Soon|
+
+**Download via https**
+```
+wget https://nicolingua.s3.eu-west-2.amazonaws.com/nicolingua-0003-west-african-radio-corpus.tgz
+```
+
+**Download with aws-cli**
+```
+aws s3 cp s3://nicolingua/nicolingua-0003-west-african-radio-corpus-openslr.tgz nicolingua-0003-west-african-radio-corpus-openslr.tgz
+```
+
+# Dataset: West African Virtual Assistant Speech Recognition Corpus:
+10,083 recorded utterances from 49 speakers (16 female and 33 male) ranging from 5 to 76 years old on a variety of devices.
+
+**Download via https**
+```
+wget https://nicolingua.s3.eu-west-2.amazonaws.com/nicolingua-0004-west-african-va-asr-corpus.tgz nicolingua-0004-west-african-va-asr-corpus.tgz
+```
+
+**Download with aws-cli**
+```
+aws s3 cp s3://nicolingua/nicolingua-0004-west-african-va-asr-corpus.tgz nicolingua-0004-west-african-va-asr-corpus.tgz
+```
+
+# Pre-Trained Model: West African Wav2vec
 
 
-# References
-If you use our work, please cite:
+**Download via https**
+```
+wget https://nicolingua.s3.eu-west-2.amazonaws.com/nicolingua-0003-west-african-wav2vec.tgz nicolingua-0003-west-african-wav2vec.tgz
+```
+
+**Download with aws-cli**
+```
+aws s3 cp s3://nicolingua/nicolingua-0003-west-african-wav2vec.tgz nicolingua-0003-west-african-wav2vec.tgz
+```
+
+
+
+
+# Licence
+
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+
+
+
+# How to cite our work
+APA
 ```
 Doumbouya, M., Einstein, L., Piech, C.. (2021). Using Radio Archives for Low-Resource Speech Recognition: Towards an Intelligent Virtual Assistant for Illiterate Users. In AAAI.
+```
+
+BibTex
+```
+ @inproceedings{doumbouya2021usingradio,
+    title={Using Radio Archives for Low-Resource Speech Recognition: Towards an Intelligent Virtual Assistant for Illiterate Users},
+    author={Doumbouya, Moussa and Einstein, Lisa and Piech, Chris},
+    booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
+    volume={35},
+    year={2021}
+  }
 ```
 
