@@ -16,6 +16,9 @@
 17,091 audio clips of length 30 seconds sampled from archives collected from 6 Guinean radio stations. The broadcasts consist of news and various radio shows in languages including French, Guerze, Koniaka, Kissi, Kono, Maninka, Mano, Pular, Susu, and Toma. Some radio shows include phone calls, background and foreground music, and various noise types. 
 
 
+**Download from OpenSLR**
+
+<a href="http://openslr.org/105/">http://openslr.org/105/</a>
 
 **Download via https**
 ```
@@ -33,6 +36,10 @@ aws s3 cp \
 
 # Dataset: West African Virtual Assistant Speech Recognition Corpus:
 10,083 recorded utterances from 49 speakers (16 female and 33 male) ranging from 5 to 76 years old on a variety of devices.
+
+**Download from OpenSLR**
+
+<a href="http://openslr.org/106/">http://openslr.org/106/</a>
 
 **Download via https**
 ```
