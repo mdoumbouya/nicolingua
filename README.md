@@ -94,3 +94,7 @@ BibTex
   }
 ```
 
+Full Text Paper
+
+<a href="https://mdoumbouya.github.io/nicolingua.pdf">nicolingua.pdf</a>
+
