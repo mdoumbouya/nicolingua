@@ -1,6 +1,4 @@
 # Using Radio Archives for Low-Resource Speech Recognition
-## Towards an Intelligent Virtual Assistant for Illiterate Users
-
 
 # Code
 - [West African Virtual Assistant ASR](scripts/va_asr)
